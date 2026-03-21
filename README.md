@@ -1,1 +1,1 @@
-PuEnT for Thai
+PuEnT for EN / TH / JP
