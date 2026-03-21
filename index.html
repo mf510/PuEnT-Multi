@@ -1,474 +1,221 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="th">
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
-<meta name=Generator content="Microsoft Word 15 (filtered)">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PuEnT v68</title>
 <style>
-<!--
- /* Font Definitions */
- @font-face
-	{font-family:"ＭＳ 明朝";
-	panose-1:2 2 6 9 4 2 5 8 3 4;}
-@font-face
-	{font-family:"ＭＳ ゴシック";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
-@font-face
-	{font-family:Century;
-	panose-1:2 4 6 4 5 5 5 2 3 4;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:"\@ＭＳ 明朝";
-	panose-1:2 2 6 9 4 2 5 8 3 4;}
-@font-face
-	{font-family:"\@ＭＳ ゴシック";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0mm;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:"Century",serif;}
-.MsoChpDefault
-	{font-family:"Century",serif;}
- /* Page Definitions */
- @page WordSection1
-	{size:595.3pt 841.9pt;
-	margin:20.0mm 30.0mm 20.0mm 30.0mm;
-	layout-grid:18.0pt;}
-div.WordSection1
-	{page:WordSection1;}
--->
+:root { --main: #007bff; --accent: #ff4757; --part: #2ed573; --aux: #ffa502; --bg: #f0f2f5; --logo-bg: #FF8C00; }
+body{font-family:'Segoe UI', Tahoma, sans-serif; background-color:var(--bg); padding:0; color:#1c1e21; margin:0; padding-bottom:30px; line-height: 1.6; -webkit-text-size-adjust: 100%;}
+.header-banner { background-color: var(--logo-bg); padding: 8px 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.logo-text { font-size: 1.8rem; font-weight: 900; line-height: 1; letter-spacing: -1px; }
+.logo-p { color: #FF4500; } .logo-u { color: #FFFFFF; } .logo-e { color: #FFD700; } .logo-n { color: #ADFF2F; } .logo-t { color: #00BFFF; }
+.ai-note { display: block; color: rgba(255,255,255,0.9); font-size: 0.55rem; font-weight: bold; margin-top: 2px; }
+.top-bar { display: flex; justify-content: center; align-items: center; gap: 30px; padding: 6px 12px; background: #fff; border-bottom: 1px solid #ddd; }
+.full-title { font-size: 0.75rem; color: #444; font-weight: bold; font-style: italic; }
+.lang-btn{padding:3px 8px;font-size:0.7rem;cursor:pointer;border:1px solid #ddd;border-radius:4px;background:#fff;font-weight:bold; -webkit-appearance: none;}
+.lang-btn.active{background:var(--main);color:white;border-color:var(--main)}
+.container{max-width:500px;margin:10px auto;background:white;padding:15px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.input-wrapper { position: relative; display: flex; align-items: stretch; margin: 5px 0; }
+.input-wrapper input[type="text"]{flex:1; padding:10px 35px 10px 10px; border:2px solid #ddd; border-radius:10px; box-sizing:border-box; font-size:1rem; text-align:center; background: #fff; -webkit-appearance: none;}
+.dropdown-trigger { position: absolute; right: 2px; top: 2px; bottom: 2px; width: 35px; background: #f0f0f0; border-radius: 0 8px 8px 0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #666; border-left: 1px solid #ddd; }
+.custom-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 2000; margin-top: 3px; }
+.menu-item { padding: 12px; font-size: 0.9rem; border-bottom: 1px solid #eee; cursor: pointer; text-align: center; }
+.input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin: 5px 0; }
+.input-grid input { padding: 10px 5px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9rem; text-align: center; width: 100%; box-sizing: border-box; background: #fffef0; outline-color: var(--main); -webkit-appearance: none;}
+.result-box{background:#f8f9fa;border:2px dashed var(--main);padding:12px 40px 12px 12px;font-weight:bold;color:#333;font-size:1.1rem;border-radius:10px;text-align:center;min-height:1.2em;position:relative;}
+.copy-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5; -webkit-appearance: none;}
+.copy-tooltip { visibility: hidden; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; white-space: nowrap; z-index: 100; opacity: 0; transition: opacity 0.3s; }
+.copy-tooltip.show { visibility: visible; opacity: 1; }
+.button-group{display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:8px}
+.button-group.two-col{grid-template-columns:repeat(2,1fr)}
+.button-group button{padding:8px 0; font-size:0.75rem; border:1px solid #ddd; border-radius:6px; background:white; font-weight:bold; cursor:pointer; -webkit-appearance: none;}
+.button-group button.active{background:var(--main); color:white; border-color:var(--main)}
+.label{font-size:0.7rem; color:#606770; margin:10px 0 4px 0; font-weight:bold}
+.tense-matrix { display: flex; flex-direction: column; gap: 4px; }
+.tense-row { display: flex; align-items: center; gap: 4px; }
+.aspect-label { flex: 0 0 95px; font-size: 0.6rem; font-weight: bold; color: #444; background: #eee; padding: 7px 0; border-radius: 4px; text-align: center; }
+.aspect-label.active { background-color: var(--part); color: white; }
+.time-btns { display: flex; flex: 1; gap: 4px; }
+.time-btns button { flex: 1; padding: 8px 0; font-size: 0.75rem; border: 1px solid var(--main); border-radius: 6px; background: white; color: var(--main); font-weight: bold; cursor: pointer; -webkit-appearance: none;}
+.time-btns button.active { background-color: var(--main); color: white; }
+.dict-section{margin-top:15px; padding-top:10px; border-top:1px dotted #ccc}
+.dict-row{display:flex; gap:5px; align-items: center;}
+.dict-inputs{display:grid; grid-template-columns: repeat(3, 1fr); flex:1; gap:3px}
+.dict-inputs input{width:100%; padding:6px 2px; font-size:0.65rem; border:1px solid #ccc; border-radius:4px; text-align:center; box-sizing: border-box; -webkit-appearance: none;}
+.add-btn{background:var(--part); color:white; border:none; border-radius:4px; width:35px; height:24px; font-size:1rem; cursor:pointer; -webkit-appearance: none;}
+.dict-list{max-height:80px; overflow-y:auto; font-size:0.65rem; margin-top:8px; display: flex; flex-wrap: wrap; gap: 4px;}
+.dict-item{background: #eee; padding: 2px 6px; border-radius: 4px; display: flex; align-items: center; gap: 4px;}
+.c-aux { color: var(--aux); } .c-be { color: var(--part); } .c-v { color: var(--accent); }
 </style>
-
 </head>
-
-<body lang=JA style='word-wrap:break-word;text-justify-trim:punctuation'>
-
-<div class=WordSection1 style='layout-grid:18.0pt'>
-
-<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US><img
-width=567 height=319 src="atara.files/image001.png"></span></p>
-
-<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>四日市メリノール学院は、メリノール女子学院を<span
-lang=EN-US>2017</span>年度に共学化するときに名称変更してできた学校で、試行錯誤の中から<span lang=EN-US>3</span>年前に通信制課程を併設し、生き残りを賭けている学校です。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>後で詳しく述べますが、立て直しに際していろいろな意見があったと聞いております。伊藤が理事としてメリノールにかかわれたのもこの模索の一つです。経営コンサルタントを導入した方がよいとか多くの意見が出されたようです。経営という視点から考えれば、私たちは<span
-style='background:yellow'>素人集団</span>です。振り返って考えてみれば、たまたま恵まれて上手くいっただけのことです。最初から<span
-lang=EN-US>10</span>年計画を立てて、通信制課程を設置したわけではなく、自転車操業的に来年は何をするかと思い悩みながら展開して、今のようになってしまった。ただ目標として、毎年一つ新しいことをすると決めて運営してきました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>また、私たちのように人口減少の中で生徒数をこのように増やした事例は、多くの人々から珍しい事例だといわれるので、そうかなとも思いますがもっと上手くできたはずと後悔するところばかりです。この事例が参考になるようであれば嬉しいですが、それぞれの学校はそれぞれ必死に努力されているので私たちの考え方は合わないかもしれません。ただ、参考にしていただければと願うばかりですし、ご不明な点やお知りになりたい点などがございましたら全てを開示することを前提にしている学校ですのでお申し付けください。</span></p>
-
-<p class=MsoNormal style='text-indent:10.5pt'><span style='font-family:"ＭＳ ゴシック"'>さて、修道会の事情を理解した上で恨み言ではありませんが、残された私どもから見れば、メリノール女子修道会から見捨てられ、エスコラピアス修道女会からも見離された学校で、「廃校の危機に毎日向き合っている」ことを自慢にしている学校そのものです。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image002.png"></span></p>
-
-<p class=MsoNormal align=left style='text-align:left;text-indent:10.5pt'><span
-style='font-family:"ＭＳ ゴシック"'>理事に就任した時にも同様な分析をしましたが、このような人口減少を示していたと思います。</span></p>
-
-<p class=MsoNormal style='text-indent:10.5pt'><span style='font-family:"ＭＳ ゴシック"'>全体を理解していただくために、上の三重県と四日市市の<span
-lang=EN-US>15</span>歳人口の推移をご理解ください。この人口減少の様相は<span lang=EN-US>2010</span>年代でも同じでした。また、学校は四日市駅からバスで<span
-lang=EN-US>30</span>分程度離れていて、このバスも一時間に<span lang=EN-US>1</span>本程度しかないのです。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>伊藤が理事としてかかわり始めた<span
-lang=EN-US>2012</span>年頃は、生徒数の減少状態で全ての理事は危機感を持っていて、「何かをしなければ」と考えながら、何も手を打てなかったというよりもほとんどの理事は修道会が考える方針を追認する姿勢でした。目指す方向性が安定していなかったとも、危機の共有がされていなかったとも考えられます。一つの方向性を打ち出したとしても、数日、数か月の時の流れの中で、この方向よりももう一つの方向性があるのではと思いいたると結果も見極めていないで最初の方向性を軽視して、新しい方向性に色目を使うという連続ではなかったかと思います。理事者側の考え方が一定でなかったとともに、教職員がばらばらの方向性を向いてわが道を行くという仕事の在り方を許していたようにも思えます。理事会と現場との非常に大きな乖離がありました。また、一人ひとりは正しいことを行っていて、結果から判断せずに、やっていること自体<span
-lang=EN-US>(</span>過程<span lang=EN-US>)</span>を認めてくれるようにと何度も言われました。でも、現状を変えるには一人ひとりが今やっていることだけに満足するのではなく他にやれることがあると考えない限り、現状のままでしかないのです。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>しかし、<span
-lang=EN-US>2010</span>年代のこの足踏みが、結果的には危機の共有を促し、何名かの教職員自身が希望やチャレンジ精神を持てたことで、私たちに最後の力を与えられたと考えています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>このような時に、学院の理事として指導してくださっている司教様が、「生徒が集まらない中学を続けることは生徒に失礼だ、生徒に対する責任をどう考えているのか」と厳しく問いただされました。次の理事会までに「中学の募集停止を視野に入れた計画書を作成しなさい」ということと、「メリノールの資産は学校が潰れたら誰かに持っていかれる、だったら今の資産を使って勝負したら」と言われました。結論としては、「中学の募集停止に踏み切ったとき」のメリノールの今後のシミュレーション（<span
-lang=EN-US>10</span>年後にメリノールはつぶれるという結論）を出し、もうしばらくの中学の存続を決定し、男女共学を含めた新しい方向性を模索することを認めていただきました。この当時の中学の入学生が<span
-lang=EN-US>14</span>名、生徒数は中・高含めて<span lang=EN-US>240</span>名程度。この状況を教職員全体で共有し、メリノールの可能性を信じ、新たなチャレンジに協力いただけたことが大きかったと思います。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>新しい方針（中学の立て直し）を、エスコラピアス修道女会は温かく見守ってくださり、全面的に協力していただきました。この新しい方針とは、女子校から男女共学に変更することによって対象者を増やすこととスポーツにもそれなりの力を入れることで、本校が対象とする生徒の幅を広げることに他なりません。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>危機の共有を図るために「潰れそうな学校」を常に自慢しながら、カトリック学校であることで潰れない学校を愚直に目指しています。この様にこだわる理由が二つあります。一つは伊藤がイタリアに留学していた<span
-lang=EN-US>20</span>年の体験からで、ここでは触れません。後は伊藤が理事長を拝命したときに、最初に理事長にされた疑義に満ちた「メリノールはカトリック学校であり続けるのか？」という教職員からの質問があったからです。カトリック学校で育ってきた理事長でしたがカトリック学校が何かも分からない理事長へのこの質問は、奈落の底に落とされるようなきついものがありましたが、質問した教員に「カトリック教育が何か」分かっているのかと内心思いながら「メリノールを設立したのはメリノール会の神父様であったので、その人の遺志を継がない限り学校の存続の意味が無い」と答えたと思います。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「カトリック学校」が何かも分かっていない理事長が「カトリック学校」を目指す、無謀で無茶苦茶で言いようもない。そこで、「カトリック学校」であるための行動を始める前に、こんな自分たちでもできるようにただただシンプルな考え方でカトリック的な学校運営を志しました。それは、「生徒のためにある学校」、「生徒一人ひとりに仕える学校」を目指し、「学校のために生徒を利用しない」ことを心掛けて経営を展開し、今も続けています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>多分、カトリック学校連盟の坪光神父様が「サーバントリーダーシップ」ということを繰り返し、繰り返しおっしゃっておられました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>この当時、「優秀な生徒を集めれば生徒は集まる」とよく言われ、入試で成績の悪い生徒を入学させなければ、成績優秀な生徒が集まるというような「妙な考え方」を主張する先生方が多かった。この「異様な考え方」に違和感を覚えた私たちは、当時のメリノールが地域のニーズに向き合った学校ではないと感じていました。どのような学校になれば地域のニーズに応え、なおかつカトリック学校であり続けることができるかを考えました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「優秀な生徒を集めれば生徒が集まる」という考えを採用して、優秀な生徒をお金で集めれば、結果として生徒が増えるのかを真剣に考えました。しかし、このような考え方をカトリック教会の聖職者である司教や神父、シスターは認めることはあり得ないと考えました。このやり方では「生徒を利用して学校を存続させた」だけに過ぎないとも結論付けました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>カトリック学校として「生徒のための学校」を目指す私たちにとっては、優秀な生徒をお金で集め、結果として生徒が増えても生徒を利用して学校を存続させるべきではないとの強い意志もありました。それに、当時のメリノール学院に数名の優秀な生徒を集めることができたとしても生徒数が増えるとは考えられませんでした。更に、人口減少が始まっている地方の小都市にあって、優秀な生徒を集め続けることができるかは統計学的に限りなく不可能だと考えました。一方、当時のメリノールは丁寧すぎるほど丁寧に指導してくださっている宝のような先生方がいたことも貴重な財産でした。そこで、今のメリノールが持っている力を地域にアピールしていく方法を考え、「今のメリノールができる教育」をして、「明日のメリノールの力を養う」という考え方を取り、「努力できる生徒、一緒に頑張れる生徒」の募集に舵を切り、一緒に新しいメリノールを作ってくれる生徒を募集するために「育成入試」を開始しました。これが最初に打った博打です。結果として受験者数を増やすことに大きく寄与しました。</span></p>
-
-<p class=MsoNormal><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal><span style='font-family:"ＭＳ ゴシック"'>　<span lang=EN-US>2017</span>年に男女共学にし（聖カタリナ学園の先生にお世話になりました。）、<span
-lang=EN-US>2018</span>年度から育成入試を導入し、<span lang=EN-US>2016</span>年から受験生も増え、結果として生徒数は増え始めましたが、学力の低い生徒や不登校気味の生徒も一定数入学してくるために、転学・退学する生徒も徐々に増え、この問題に頭を悩ませました。この問題「転学・退学者の増加」が通信制課程を考えるきっかけになりました（賢明学園の先生にお世話になりました）。</span></p>
-
-<p class=MsoNormal><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image003.png"></span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image004.png"></span></p>
-
-<p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image005.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image006.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image007.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「育成入試」</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2014</span><span style='font-family:"ＭＳ ゴシック"'>年度あたりのメリノールは、中学の受験生が<span
-lang=EN-US>30</span>名程度、高校は<span lang=EN-US>300</span>名程度、それでも数名の不合格者を出して、より優秀な生徒集団を作るふりをして頑張っていました。一方、世間一般には、「いつまで持つのか」と考えられていましたし、「潰れるより他ない学校」と考えられ、受験生からは入学を希望する学校ではなくなっていました。そこで、学校を知っていただく努力をすると同時に、この数名の不合格者に注目しました。本当のことを言えば、この不合格者ですら入学したくない学校だったのかもしれません。この不合格者を入学させる新たな基準（考え方）を作りたいと考えるようになりました。言い換えれば、この考え方は「教育現場で生徒に向き合って教えていただく先生方の納得を得る方法」の模索であり、「生徒を送り出す学校の先生方に本校の心意気を示す手段」でもあり、「入学してくる生徒に自信をもってもらう手段」だったと思います。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>結論としては、育成入試を導入した<span
-lang=EN-US>2018</span>年度から導入しました。入試問題集を出来るだけ早く配布して、受験の応募者に事前に勉強してもらって入試に備えて勉強をしていただくことを入試として提案しました（これを育成入試と呼びました）。この考え方によって、過去の正否や失敗を問わず、努力したいという姿勢をできる限り評価しようとしました。結果として受験者数は育成入試受験者数だけ増加しましたが、本校の先生方にも公立の中学の先生方にもきわめて不評で、わずか数名の先生方が評価してくれるだけでした。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>私たちの狙いは要するに、今までの不合格者は一発勝負の入試の点数が低すぎるので不合格にしていましたが、育成入試では、前もってお知らせした問題すらやろうとしない、つまり私たちと一緒に努力をしようとしない生徒を不本意にも不合格とさせていただきました。メリノールが本当の教育力をつけ、やる気のない生徒の指導ができるようになる時まで、「私たちの力不足を恥じて」不合格としたと考えています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>本来の教育とはやる気のない生徒にやる気を起こさせることから始めることだとは思いますが、今のメリノールには残念ながらそのような実力がまだないのでと心から謝罪しながらお断りしているのが現状です。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>育成入試のもう一つの狙いは、受験者全員を入学させる状況を想定した時に、一発勝負に賭けて点の取れない生徒を取るよりも勉強が得意でなくとも問題集を繰り返し勉強した努力できる生徒を入学させたほうがよりいいのではないかと考えました。しかし、この考え方を世間から認めていただくためには、様々な試みを行うことが必要でした。何が必要か考え、データ分析を詳細に行い育成入試のある意味の正当性を証明することを入試説明会などで繰り返し行ってきました（このための道具、<span
-lang=EN-US>ESAME</span>というプログラムも開発しました。この当時の資料も残っていると思いますので必要な方はお申し付けください）。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>結果としては、塾対象の説明会に参加される塾の先生が増え、受験生が増え、ここ<span
-lang=EN-US>5</span>年は定員をオーバーしている関係で不合格者を出さざるを得なくなってきています。この育成入試は、公立高校のように中学時代の成績を合否判定に使わなかったので、不登校傾向の生徒の受験も増えたように思います。育成入試を始めた当時、育成入試に対して酷評していた中学の先生方から不登校気味の生徒も安心して受験できる育成入試として理解され、さらに、ある中学では受験対策の資料として育成入試の問題集が活用され始めたり、今では感謝まで示される先生もいるようになりました。ただ、入学した不登校気味の生徒が全員無事に卒業できたわけではなく、前の転学・退学者数のデータで提示した生徒数だけ、私たちの思いに反して、別の進路に進まれました（私たちの失敗）。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image008.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>この本校全日制課程では対応できず、転学せざるを得ない生徒の受け皿として通信制課程を併設しました。通信制課程を併設してからのこの<span
-lang=EN-US>3</span>年、中学で不登校であった生徒が育成入試で多く受験するようになりました。育成入試では過去の成績などは一切問わずに、育成問題集でどれだけ勉強してくれたか、つまり入試に向けてどれだけ努力したかで合否判定をすると公言し、全ての情報を開示してきました。通信制課程を併設した年の育成入試には、<span
-lang=EN-US>70</span>名程度の不登校気味の生徒が受験し、<span lang=EN-US>40</span>名の生徒が入学しました。そして、入学者の<span
-lang=EN-US>20</span>名が受験点数上位<span lang=EN-US>100</span>位の中に入っていました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>ところで、育成入試を始めるときに、三重県にも<span
-lang=EN-US>Web</span>出願の波が来ていました。<span lang=EN-US>Web</span>出願の利点と欠点を調べましたが、市販のものを求める利点がないと判断し、独自開発をしました。このシステムの開発の目的は、「情報の徹底的な開示」と「生徒と保護者の利便性の向上」や本校の「入試分析が広報活動で利用」出来るものにすることとしました。保護者の利便性を第一に、第二に情報の開示の実現に向けて作成し、その結果を入試説明会に利用しました。この本校独自の<span
-lang=EN-US>Web</span>出願の仕組み（<span lang=EN-US>ESAME</span>）は他校にも利用していただけるようにと働きかけましたが採用されず、ガラパゴス化が進み利用者から見放されるかと心配しておりましたが、毎年指摘される点の改善を繰り返したために、活用を続けてほしいとの要望も頂いています。【学校における<span
-lang=EN-US>ICT</span>利用に関しては、海星（長崎）の森先生（一般財団法人日本私学教育研究所　令和<span lang=EN-US>7</span>年度委託研究員）にお問い合わせください。】</span></p>
-
-<span lang=EN-US style='font-size:10.5pt;font-family:"Century",serif'><br
-clear=all style='page-break-before:always'>
-</span>
-
-<p class=MsoNormal align=left style='text-align:left'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image009.png"></span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image010.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「生徒のための学校」を目指して、入試データの情報開示と育成入試で受験生を増加させることができました。そして「生徒のための学校」を目指すなら、「やり直しのできる学校」であることも必要であると考えました。「私たちと一緒に努力をする意思のある生徒」を求めたのですが、結果としては途中で進路変更をせざるを得なくなる生徒が徐々に増えていき、この生徒たちに対して何か手当をしなければと考えました。このように考えるのは、「生徒のための学校」を目指す本校としては当然と考えました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>このころ、カトリック学校連合会では、李神父様がクリストレイスクールのことを話されていたと思います。</span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image011.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image012.png"></span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image013.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「通信制課程」の併設</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>本校は「やり直しのできる学校」を目指しました。入試において全入させた時代の生徒でも見事に立ち直って大学に進学した生徒も多くいましたが、その一方で本校の力不足で学校に通えないまま転校していく生徒も多くいました。そのような生徒を引き受けた私たちの責任として、彼らに適した学校のあり方を考える必要性があるのではないかと思うようになりました。結論として、通信制課程の併設でした。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>私の偏見かもしれませんが、社会には通信制課程に対するスティグマがあると思っていました。育成入試で入学するために努力できた生徒を、全日制課程に入学後通学させるだけの力がなかった私たちは、一度努力して入学できた生徒を育てることができず、転校させるしか方法がない現実（制度上の問題）に直面させられました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>このような現実に対して、私たちの偏見、学校の面子を捨てて、本当に生徒に向き合えるものを創ろうと動き出しました。私たちにとっては、ただ単に通信制課程を創って高校の卒業資格を与えるだけが目的ではなく、学校に通えなくなっている生徒が「希望を見出せる、希望を育める課程」を創ることが真の目的でした。このような通信制課程を併設すると決めるときに、理事長のもう一つの狙いは「過疎地へのアプローチ」でした。</span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image014.png"></span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image015.png"></span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image016.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>今年度が通信制課程の完成年度なのですが、課程の申請はある意味簡単に出来て、出発点に立つことができました。しかし、「生徒が希望を見付けられる」課程にすることで苦労しています。今までの結果から考えると、この<span
-lang=EN-US>2</span>年間の試みは思い違いとか考え方が間違っていたために、修正、改善する必要性の連続でした。今後もこの修正・改善は避けられないと思います。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal><span lang=EN-US><img width=567 height=319
-src="atara.files/image017.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>生徒数は、下の表のように増えていて、今年度定員増を申請しております（<span
-lang=EN-US>180</span>から<span lang=EN-US>360</span>名に）。おそらく今年度中には<span
-lang=EN-US>180</span>名近くにはなっていると思います。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image018.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>この通信制課程に通う生徒がどのように勉強したかを「見える化」して、大学や就職先にアピールできる仕組みを構築すること、この目標のために、「生徒がどのように学んだか」を「見える化」する仕組みとして、<span
-lang=EN-US>Studenti</span>を作った。この「見える化」を目指したプログラムでは、授業を予約し、出席することで、「自分の計画とその実行率を分析し自己管理能力を測定」する一つの新しい要素を追加すると同時に、従前のスクーリングの出席状況や課題の提出状況、テストの成績もリアルタイムで生徒も教員も確認できるようにして、生徒の「自己管理」能力を高めることを目的としました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>さらに本校の通信制課程ではできるだけ社会との接点を持ち、チャレンジの機会を増し、「働く意味」、「収入を得ることの意味」をできる限り実体験を通して考えさせ、社会性を養うことを目指しています。この最も難しいと思われる役割を武藤が負いました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>新しい課程を創るときに必要なことは「考える」こと、従って生徒にも「考えさせること」を中心に据えた教育を実施したいと思いました。このために、通信制課程を考え始めたときから企業訪問を実施し、地場産業との連携を図り協力体制を構築し始めた。まだ、道半ばですが、武藤が行っているキャリア教育（学校設定科目）の中の授業は、ラーメン屋、学童保育、映像編集、プログラミングなどのグループ学習が進められようとしています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「働く意味」「収入を得ることの意味」を中心に置いた生徒一人ひとりに合った教育の模索を続けています。おそらく、この授業は構築と解体の連続だと思いますが、私たち教員がチャレンジすることで生徒にもチャレンジする気概を持てるようにしたいと願っております。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>模索の連続である現状をお話しさせていただきます。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 src="atara.files/image019.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US><img width=567
-height=319 id="グラフィックス 1" src="atara.files/image020.png"></span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>通信制課程を併設した時は、潰れることも視野に入れて、潰れたときに影響を最小限に止めることができるようにと考え、私のような高齢者の仕事場所の創造という視点を入れて計画したために、初年度は通信制の担当者を経験豊富な再任用の先生方で揃えました。生徒たちとはかなりの年齢差がありましたが、生徒や保護者とは比較的良好な関係を築きながら学校生活は進んでいきました。しかしその一方で、本校独自のカリキュラムやデジタル化を進めるシステムの創出を目指し新しい取り組みを積極的に取り入れようとしたとき、思わぬ抵抗に遭いました。経験豊富な再任用組の先生方は、過去の経験値があるが故に全く新しい考え方や取り組みにチャレンジすること、つまり生徒の状況や社会のニーズに合わせて変化させて行くこと、特にデジタル化に対応できなかった。学校とは、通信制課程とはこうあるべきという既成概念にとらわれて、やり方を変えていくといくことに強い抵抗感があったようです。</span></p>
-
-<span lang=EN-US style='font-size:10.5pt;font-family:"ＭＳ ゴシック"'><br clear=all
-style='page-break-before:always'>
-</span>
-
-<p class=MsoNormal align=left style='text-align:left'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>そこで、２年目は担当者を若手に入れ替えました。経験は浅くとも若い力でいろいろとチャレンジしてくれることを期待してのことです。中には公立の通信制高校の経験を持った教員もいました。２年目は、１年目で残されていた仕事も整理され、デジタル化もそれなりに進みました。ようやく２年目で通信制課程のベースができました。そしてここから本校独自の通信制課程へ発展させていく試行錯誤が始まったわけです。実力差の激しい通信制課程の生徒には、より個別最適な指導が必要になってきます。これには教員のより積極的な関わりや指導力、通信制チームとして連携が重要になってきます。このような体制作りを強力に推し進める必要がありました。しかし今度は逆に若手ばかりということで、推進力不足という状況が見えてきました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>今年度３年目となり、これまで毎年進めてきた通信制課程の教室整備も完成を迎えました。過去２年間の失策や試行錯誤を踏まえて、担当教員も入れ替えました。３年目は進学・就職といった進路指導が重要になってくるので、進路指導の経験豊富な伊達を教頭とし、若手、中堅、ベテランのバランスをとった体制となりました。３年目にしてようやく教頭以下チームワークもよく、さまざまな試みが始まっています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>最後に、伊藤が大学に福祉の教員として雇われたときに、「福祉とは何か？」と問われました。「福祉とは哲学」だと答えました。この時に、仲の良かった哲学の先生は、「お前の言う哲学は、なんちゃって哲学だ。」と酷評されました。でも今でも伊藤はそのように考えています。今、「経営とは」と聞かれれば、「神のみ旨の実践」と答えるか、「哲学だ」と答えます。決してお金ではありません。どんな事業をするにもお金は必要です。でも、お金がない時に思い出すのは、イタリアの医学部に留学を決めたときの私の指導神父（メリノール会の神父様）の言葉です。留学したいと考えていた伊藤は経済的な不安から躊躇していた時に、「やろうとしていることは社会にとって本当に必要なことか？」と問われ、次に「お金があればできるのか？」と問われたことです。この時言われたことは、「お金がついてくるような仕事をしろ」と言われました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>「お金がついてくる仕事」の体験は、留学時代にも、特別支援学校聖母の家学園の立て直しでも経験しました。特別支援学校では徹底的に生徒優先の運営をし、生徒に、保護者に信頼される学校を目指しました。あまりに生徒にお金をつぎ込むために、職員からは「職員の給与も上げてくれ」と何度言われたことか分かりません。その度に、「生徒への投資の後に」と答えていました。結果として、生徒数は約<span
-lang=EN-US>2</span>倍に、扱う金額も２倍、校舎も２つになり、結果として職員の給与も増加しました。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>この体験をもとに、メリノールでは「生徒や保護者」に信頼される学校ではなく、「地域」に信頼される学校を先に述べたように目指しました。通信制課程併設のところで、過疎地への進出を述べました。この目的は過疎地でも経営できる学校なら経営的には生き残れるとの野望です。でも、よく考えてみると過疎地で存続するためには、過疎地を存続させなければなりません。過疎地を存続させる唯一の方法は過疎地の子どもたちに「生きる喜び」を体感してもらうことだと思います。子どもたちが「生きる喜び」を身をもって理解していたならば、子どもたちの子どもにもその喜びを分かち合いたいと考えるのではないかと考えています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>この神から与えられた「生きる喜び」を私たちは希望とか夢とかいう言葉でも表現しています。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>最後に、学校改革にはスピード感が必要だと申し上げます。学校改革が制度に触れる場合は、計画決定後でも<span
-lang=EN-US>2</span>年の歳月を要します。さらに、年度をまたいでの改革はどのようなものであっても難しく、新年度から開始できるようにすることは結構難問です。本学の改革は<span
-lang=EN-US>2000</span>年代から叫ばれ、この二つの要因でずるずると引き延ばされてきたようにも思えます。変革に反対される方はこの二つの理由を非常に上手に使われます。改革にはこのように時間がかかります。まして、検討に検討を重ねればさらに時間がかかることになり、検討の繰り返しになって検討疲れを引き起こします。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>現状と改革の比較をすると、現実と空想（希望）の比較です。改革はあくまで希望であって現実ではないのです。ですからチャレンジ精神が必要なのです。また、現状を主張される人は今の評価が維持されると考えているようです。でも、社会も変化していますので現状に対する評価は決して維持されているのではなく、変動しているものなのです。</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>改革を容易にするためには、この現実と空想の比較をより現実と現実に近い空想の比較に工夫することが必要なのだと思います。この空想を現実により近い空想にするためには、日常的な試みが必要なのです。</span></p>
-
-<span lang=EN-US style='font-size:10.5pt;font-family:"ＭＳ ゴシック"'><br clear=all
-style='page-break-before:always'>
-</span>
-
-<p class=MsoNormal align=left style='text-align:left'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>発表者</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>伊藤春樹</span></p>
-
-<p class=MsoNormal style='text-indent:50.9pt'><span style='font-family:"ＭＳ ゴシック"'>～<span
-lang=EN-US>1999</span>年　イタリア国立ペルージャ大学医学部神経科特別研究員</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>1999</span><span lang=ZH-TW style='font-family:
-"ＭＳ ゴシック"'>年～</span><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>2009</span><span
-lang=ZH-TW style='font-family:"ＭＳ ゴシック"'>年　藤女子大学人間生活学部教授</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2009</span><span lang=ZH-TW style='font-family:
-"ＭＳ ゴシック"'>年～</span><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>2019</span><span
-lang=ZH-TW style='font-family:"ＭＳ ゴシック"'>年　愛知淑徳大学福祉貢献学部教授</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2010</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2012</span>年　学校法人特別支援学校聖母の家学園理事</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2012</span><span style='font-family:"ＭＳ ゴシック"'>年～現在　　
-学校法人特別支援学校聖母の家学園理事長</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2013</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2015</span>年　四日市メリノール学院、理事</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2015</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2021</span>年　四日市メリノール学院、理事、学院長</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2021</span><span style='font-family:"ＭＳ ゴシック"'>年～現在　<span
-lang=EN-US>&nbsp;&nbsp; </span>学校法人四日市メリノール学院理事長</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=ZH-TW
-style='font-family:"ＭＳ ゴシック"'>伊達功治</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2004</span><span lang=ZH-TW style='font-family:
-"ＭＳ ゴシック"'>年～</span><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>2007</span><span
-lang=ZH-TW style='font-family:"ＭＳ ゴシック"'>年（株）松下総合教育企画　　　　　　　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2007</span><span lang=ZH-TW style='font-family:
-"ＭＳ ゴシック"'>年～</span><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>2008</span><span
-lang=ZH-TW style='font-family:"ＭＳ ゴシック"'>年　鈴鹿高校非常勤講師　　　　　　　　　　　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2008</span><span lang=ZH-TW style='font-family:
-"ＭＳ ゴシック"'>年～</span><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>2011</span><span
-lang=ZH-TW style='font-family:"ＭＳ ゴシック"'>年　暁高校常勤講師　　　　　　　　　　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2011</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2018</span>年　メリノール女子学院　担任・学年主任　　　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2018</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2025</span>年　四日市メリノール学院　全日制課程　進路部長　　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2025</span><span style='font-family:"ＭＳ ゴシック"'>年～現在　
-　四日市メリノール学院　通信制課程　教頭　　　　　　　　　　　　　　　　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>&nbsp;</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>武藤亮磨</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2016</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2017</span>年　<span lang=EN-US>(</span>株<span lang=EN-US>)</span>タイセイ・ハウジー　営業　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2017</span><span lang=ZH-TW style='font-family:
-"ＭＳ ゴシック"'>年～</span><span lang=EN-US style='font-family:"ＭＳ ゴシック"'>2023</span><span
-lang=ZH-TW style='font-family:"ＭＳ ゴシック"'>年　三重県立朝明高校常勤講師　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2023</span><span style='font-family:"ＭＳ ゴシック"'>年～<span
-lang=EN-US>2024</span>年　四日市メリノール学院　全日制課程　担任　</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span lang=EN-US
-style='font-family:"ＭＳ ゴシック"'>2024</span><span style='font-family:"ＭＳ ゴシック"'>年～現在　　四日市メリノール学院　通信制課程　担任・キャリアデザイン担当</span></p>
-
-<p class=MsoNormal style='text-indent:14.15pt'><span style='font-family:"ＭＳ ゴシック"'>日会社登壇</span></p>
-
+<body onclick="hideMenu()">
+<div class="header-banner">
+    <div class="logo-text"><span class="logo-p">P</span><span class="logo-u">u</span><span class="logo-e">E</span><span class="logo-n">n</span><span class="logo-t">T</span></div>
+    <span class="ai-note">Low Power Consumption Design</span>
 </div>
+<div class="top-bar">
+    <span class="full-title">Puzzle for English Tense</span>
+    <div class="lang-switch">
+        <button id="btn-th" class="lang-btn active" onclick="setLang('th')">TH</button>
+        <button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+</div>
+<div class="container">
+    <div class="label" id="lbl-select">1. เลือกประโยคตัวอย่าง (คลิก ▼)</div>
+    <div class="input-wrapper">
+        <input type="text" id="userInput" value="You play tennis." readonly onclick="toggleMenu(event)">
+        <div class="dropdown-trigger" onclick="toggleMenu(event)">▼</div>
+        <div class="custom-menu" id="customMenu">
+            <div class="menu-item" onclick="selectEx('You play tennis.')">You play tennis.</div>
+            <div class="menu-item" onclick="selectEx('You write a letter.')">You write a letter.</div>
+            <div class="menu-item" onclick="selectEx('She cleans the room.')">She cleans the room.</div>
+            <div class="menu-item" onclick="selectEx('He plays soccer.')">He plays soccer.</div>
+            <div class="menu-item" onclick="selectEx('They eat an apple.')">They eat an apple.</div>
+            <div class="menu-item" onclick="selectEx('He speaks English.')">He speaks English.</div>
+        </div>
+    </div>
+    <div class="label" id="lbl-input">2. พิมพ์ประโยคเอง (ประธาน / กริยา / กรรม)</div>
+    <div class="input-grid">
+        <input type="text" id="in-s" value="You" oninput="convert()" onfocus="var t=this; setTimeout(function(){ t.setSelectionRange(0, 9999); t.select(); }, 10);" onclick="this.setSelectionRange(0, 9999); this.select();" placeholder="S">
+        <input type="text" id="in-v" value="play" oninput="convert()" onfocus="var t=this; setTimeout(function(){ t.setSelectionRange(0, 9999); t.select(); }, 10);" onclick="this.setSelectionRange(0, 9999); this.select();" placeholder="V">
+        <input type="text" id="in-o" value="tennis" oninput="convert()" onfocus="var t=this; setTimeout(function(){ t.setSelectionRange(0, 9999); t.select(); }, 10);" onclick="this.setSelectionRange(0, 9999); this.select();" placeholder="O">
+    </div>
+    <div class="label" id="lbl-result">3. ผลลัพธ์ของพัซเซイル</div>
+    <div class="result-box">
+        <div id="resultText"></div>
+        <button class="copy-btn" onclick="copyResult()">📋</button>
+        <div id="copyTooltip" class="copy-tooltip">Copied!</div>
+    </div>
+    <div class="label" id="lbl-voice">4-1. รูปประโยค (Voice)</div>
+    <div class="button-group two-col">
+        <button id="v-active" onclick="setVoice('active',this)" class="active">ประธานทำเอง (Active)</button>
+        <button id="v-passive" onclick="setVoice('passive',this)">รูปถูกกระทำ (Passive)</button>
+    </div>
+    <div class="label" id="lbl-type">4-2. ประเภทประโยค</div>
+    <div class="button-group">
+        <button id="mode-pos" onclick="setMode('pos',this)" class="active">บอกเล่า</button>
+        <button id="mode-neg" onclick="setMode('neg',this)">ปฏิเสธ</button>
+        <button id="mode-int" onclick="setMode('int',this)">คำถาม</button>
+    </div>
+    <div class="label" id="lbl-tense">5. เลือกกาล (Tense)</div>
+    <div id="tenseMatrix" class="tense-matrix"></div>
+    <div class="dict-section">
+        <div class="label" id="lbl-dict">6. เพิ่มกริยาอปกติ</div>
+        <div class="dict-row">
+            <div class="dict-inputs">
+                <input type="text" id="d-base" placeholder="รูปเดิม"><input type="text" id="d-past" placeholder="ช่อง 2"><input type="text" id="d-pp" placeholder="ช่อง 3"><input type="text" id="d-s" placeholder="-s"><input type="text" id="d-ing" placeholder="-ing">
+            </div>
+            <button class="add-btn" onclick="saveVerb()">＋</button>
+        </div>
+        <div id="dictList" class="dict-list"></div>
+    </div>
+</div>
+<script>
+"use strict";
+var currentMode='pos', currentVoice='active', tTime='present', tAspect='simple', currentLang='th';
+var myDict = JSON.parse(localStorage.getItem('myTenseDict_TH') || '{}');
+var i18n = {
+    th: { select: "1. เลือกประโยคตัวอย่าง (คลิก ▼)", input: "2. พิมพ์ประโยคเอง (ประธาน / กริยา / กรรม)", result: "3. ผลลัพธ์ของพัซเซิล", voice: "4-1. รูปประโยค (Voice)", type: "4-2. ประเภทประโยค", tense: "5. เลือกกาล (Tense)", dict: "6. เพิ่มกริยาอปกติ", pos: "บอกเล่า", neg: "ปฏิเสธ", int: "คำถาม", active: "ประธานทำเอง (Active)", passive: "รูปถูกกระทำ (Passive)", copied: "คัดลอกแล้ว!" },
+    en: { select: "1. Sample (Click ▼)", input: "2. Custom Input (S / V / O)", result: "3. Result", voice: "4-1. Voice", type: "4-2. Type", tense: "5. Select Tense", dict: "6. Add Verb", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Active", passive: "Passive", copied: "Copied!" },
+    present: { th: "ปัจจุบัน", en: "Pres." }, past: { th: "อดีต", en: "Past" }, future: { th: "อนาคต", en: "Fut." },
+    simple: { th: "รูปปกติ (Simple)", en: "Simple" }, cont: { th: "กำลังทำ (Cont.)", en: "Cont." }, perf: { th: "สมบูรณ์ (Perf.)", en: "Perf." }, p_cont: { th: "สมบูรณ์+กำลัง", en: "P-Cont" }
+};
+var defaultIrregulars = {'cut':{past:'cut',pp:'cut'},'write':{past:'wrote',pp:'written'},'eat':{past:'ate',pp:'eaten'},'go':{past:'went',pp:'gone'},'do':{past:'did',pp:'done'},'have':{past:'had',pp:'had'},'speak':{past:'spoke',pp:'spoken'}};
 
+function toggleMenu(e) { e.stopPropagation(); var m = document.getElementById('customMenu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; }
+function hideMenu() { var m = document.getElementById('customMenu'); if(m) m.style.display = 'none'; }
+function selectEx(f) { 
+    document.getElementById('userInput').value=f; 
+    var p=f.replace('.','').split(' '); 
+    if(p.length>=2){ 
+        document.getElementById('in-s').value=p[0]; 
+        var vBase = p[1].toLowerCase();
+        if(['eats','plays','cleans','speaks','writes'].indexOf(vBase) !== -1) { vBase = vBase.slice(0,-1); }
+        document.getElementById('in-v').value=vBase; 
+        document.getElementById('in-o').value=p.slice(2).join(' '); 
+    } 
+    convert(); hideMenu(); 
+}
+function span(t,c){ return '<span class="'+c+'">'+t+'</span>'; }
+function cap(s) { if (!s) return ""; var raw = s.replace(/<[^>]*>/g, ''); if (/[A-Z]/.test(raw.charAt(0))) return s; return s.replace(/[a-z]/i, function(m){ return m.toUpperCase(); }); }
+function mid(s) { if (!s) return ""; var raw = s.trim(); if (/^(Mr\.|Ms\.|Mrs\.|Miss|Dr\.)/i.test(raw)) return raw; var lower = raw.toLowerCase(); return lower.replace(/\bi\b/g, 'I').replace(/\bi'/g, "I'"); }
+function check3rd(s) { var sL = s.toLowerCase().replace(/<[^>]*>/g, '').trim(); if (['i','you','we','they'].indexOf(sL) !== -1) return false; if (sL.indexOf(' and ') !== -1 || sL.indexOf(' & ') !== -1) return false; var singNames = ['tennis','news','math','economics','physics','diabetes','mars']; if (singNames.indexOf(sL) !== -1) return true; if (sL.slice(-1) === 's') return false; return true; }
+function getS(v){ if(myDict[v] && myDict[v].s) return myDict[v].s; if(v==='have') return 'has'; if(v==='go'||v==='do') return v+'es'; if(/[^aeiou]y$/.test(v)) return v.slice(0,-1)+'ies'; if(/[sxz]$|sh$|ch$/.test(v)) return v+'es'; return v+'s'; }
+function getI(v){ if(myDict[v] && myDict[v].ing) return myDict[v].ing; if(v==='be') return 'being'; if(v.slice(-1)==='e' && !/[oey]e$/.test(v)) return v.slice(0,-1)+'ing'; if(/([^aeiou][aeiou][bdfghjklmnpqrstvwxyz])$/.test(v) && !/[wxy]$/.test(v)) return v+v.slice(-1)+'ing'; return v+'ing'; }
+
+function convert(){
+    var rawS=document.getElementById('in-s').value.trim(), v=document.getElementById('in-v').value.toLowerCase().trim(), rawO=document.getElementById('in-o').value.trim();
+    if(!rawS||!v) return;
+    var s = rawS, o = rawO;
+    var pastForm = myDict[v] ? myDict[v].past : (defaultIrregulars[v] ? defaultIrregulars[v].past : (v.slice(-1)==='e'?v+'d':v+'ed'));
+    var ppForm = myDict[v] ? myDict[v].pp : (defaultIrregulars[v] ? defaultIrregulars[v].pp : (v.slice(-1)==='e'?v+'d':v+'ed'));
+    var f={s:getS(v),ing:getI(v),base:v,past:pastForm,pp:ppForm};
+    var sub = (currentVoice==='passive') ? (o||"something") : s;
+    var obj = (currentVoice==='passive') ? ("by "+(({i:'me',he:'him',she:'her',they:'them',we:'us'}[s.toLowerCase()]||mid(s)))) : mid(o);
+    var is3 = check3rd(sub), sL = sub.toLowerCase().replace(/<[^>]*>/g, '');
+    var beP = (sL==='i')?'am':(is3?'is':'are'), bePa = (sL==='i'||is3)?'was':'were', haveP = is3?'has':'have', n = span('not','c-aux'), res = "";
+    if(currentVoice==='passive'){
+        var aux="", beS="", verb=span(f.pp,'c-v');
+        if(tTime==='present'){ if(tAspect==='simple') aux=beP; else if(tAspect==='cont'){ aux=beP; beS=span('being','c-be'); } else { aux=haveP; beS=span('been','c-be'); if(tAspect==='p_cont') beS+= ' ' + span('being','c-be'); } }
+        else if(tTime==='past'){ if(tAspect==='simple') aux=bePa; else if(tAspect==='cont'){ aux=bePa; beS=span('being','c-be'); } else { aux='had'; beS=span('been','c-be'); if(tAspect==='p_cont') beS+= ' ' + span('been','c-be'); } }
+        else { aux='will'; beS=span('be','c-be'); if(tAspect==='cont') beS+= ' ' + span('being','c-be'); else if(tAspect==='perf') beS=span('have','c-aux')+' '+span('been','c-be'); else if(tAspect==='p_cont') beS=span('have','c-aux')+' '+span('been','c-be')+' '+span('being','c-be'); }
+        var cAux=span(aux,(tTime==='future'||tAspect==='perf'||(tTime==='past'&&tAspect==='perf'))?'c-aux':'c-be');
+        if(currentMode==='pos') res=cap(sub)+' '+cAux+' '+beS+' '+verb+' '+obj;
+        else if(currentMode==='neg') res=cap(sub)+' '+cAux+' '+n+' '+beS+' '+verb+' '+obj;
+        else res=cap(aux)+' '+mid(sub)+' '+beS+' '+verb+' '+obj;
+    } else {
+        var v_b=span(f.base,'c-v'), v_s=span(f.s,'c-v'), v_i=span(f.ing,'c-v'), v_p=span(f.past,'c-v'), v_pp=span(f.pp,'c-v'), be=span('be','c-be'), been=span('been','c-be');
+        if(currentMode==='pos'){
+            if(tTime==='present') res=cap(sub)+' '+((v==='be')?span(beP,'c-be'):(tAspect==='simple'?(is3?v_s:v_b):(tAspect==='cont'?span(beP,'c-be')+" "+v_i:(tAspect==='perf'?span(haveP,'c-aux')+" "+v_pp:span(haveP,'c-aux')+" "+been+" "+v_i))))+' '+obj;
+            else if(tTime==='past') res=cap(sub)+' '+((v==='be')?span(bePa,'c-be'):(tAspect==='simple'?v_p:(tAspect==='cont'?span(bePa,'c-be')+" "+v_i:(tAspect==='perf'?span('had','c-aux')+" "+v_pp:span('had','c-aux')+" "+been+" "+v_i))))+' '+obj;
+            else { var w=span('will','c-aux'); res=cap(sub)+' '+w+' '+((tAspect==='simple')?(v==='be'?be:v_b):(tAspect==='cont'?be+" "+v_i:(tAspect==='perf'?span('have','c-aux')+" "+v_pp:span('have','c-aux')+" "+been+" "+v_i)))+' '+obj; }
+        } else if(currentMode==='neg'){
+            var aux=(tTime==='present')?(is3?'does':'do'):(tTime==='past'?'did':'will');
+            if(v==='be'&&tTime!=='future'&&tAspect==='simple') res=cap(sub)+' '+span(tTime==='present'?beP:bePa,'c-be')+' '+n+' '+obj;
+            else if(tAspect==='simple') res=cap(sub)+' '+span(aux,'c-aux')+' '+n+' '+(tTime==='future'?(v==='be'?be:v_b):v_b)+' '+obj;
+            else if(tAspect==='cont') res=cap(sub)+' '+span(tTime==='present'?beP:(tTime==='past'?bePa:'will'), (tTime==='future'?'c-aux':'c-be'))+' '+n+' '+(tTime==='future'?be+" ":"")+v_i+' '+obj;
+            else { var h=(tTime==='present'?haveP:(tTime==='past'?'had':'will')); res=cap(sub)+' '+span(h,'c-aux')+' '+n+' '+(tTime==='future'?span('have','c-aux')+" ":"")+(tAspect==='perf'?v_pp:been+" "+v_i)+' '+obj; }
+        } else {
+            if(v==='be'&&tTime!=='future'&&tAspect==='simple') res=cap(tTime==='present'?beP:bePa)+' '+mid(sub)+' '+obj;
+            else if(tAspect==='simple') { var aux=(tTime==='present')?(is3?'does':'do'):(tTime==='past'?'did':'will'); res=cap(aux)+' '+mid(sub)+' '+(tTime==='future'?(v==='be'?be:v_b):v_b)+' '+obj; }
+            else if(tAspect==='cont') { var aux=(tTime==='present'?beP:(tTime==='past'?bePa:'will')); res=cap(aux)+' '+mid(sub)+' '+(tTime==='future'?be+" ":"")+v_i+' '+obj; }
+            else { var h=(tTime==='present'?haveP:(tTime==='past'?'had':'will')); res=cap(h)+' '+mid(sub)+' '+(tTime==='future'?span('have','c-aux')+" ":"")+(tAspect==='perf'?v_pp:been+" "+v_i)+' '+obj; }
+        }
+    }
+    document.getElementById('resultText').innerHTML=res.trim().replace(/\s+/g," ")+(currentMode==='int'?'?':'.');
+}
+function setMode(m, e){ currentMode=m; var btns=document.querySelectorAll('#mode-pos,#mode-neg,#mode-int'); for(var i=0; i<btns.length; i++) btns[i].classList.remove('active'); e.classList.add('active'); convert(); }
+function setVoice(v, e){ currentVoice=v; var btns=document.querySelectorAll('#v-active,#v-passive'); for(var i=0; i<btns.length; i++) btns[i].classList.remove('active'); e.classList.add('active'); convert(); }
+function updateTense(ti, a){ tTime=ti; tAspect=a; renderTenseMatrix(); convert(); }
+function setLang(l){ currentLang=l; document.getElementById('btn-th').className = (l==='th'?'lang-btn active':'lang-btn'); document.getElementById('btn-en').className = (l==='en'?'lang-btn active':'lang-btn'); var ids=['select','input','result','voice','type','tense','dict']; for(var i=0; i<ids.length; i++){ var el=document.getElementById('lbl-'+ids[i]); if(el) el.innerText=i18n[l][ids[i]]; } renderTenseMatrix(); convert(); }
+function saveVerb(){ var b=document.getElementById('d-base').value.toLowerCase(); if(!b) return; myDict[b]={past:document.getElementById('d-past').value,pp:document.getElementById('d-pp').value,s:document.getElementById('d-s').value,ing:document.getElementById('d-ing').value}; localStorage.setItem('myTenseDict_TH',JSON.stringify(myDict)); renderDict(); convert(); ['d-base','d-past','d-pp','d-s','d-ing'].forEach(function(id){document.getElementById(id).value='';});}
+function renderDict(){ var list=document.getElementById('dictList'); if(!list) return; list.innerHTML=''; for(var b in myDict){ var item=document.createElement('div'); item.className='dict-item'; item.innerHTML='<b>'+b+'</b><button style="border:none;background:var(--accent);color:white;cursor:pointer;font-size:0.5rem;" onclick="deleteVerb(\''+b+'\')">×</button>'; list.appendChild(item); } }
+function deleteVerb(b){ delete myDict[b]; localStorage.setItem('myTenseDict_TH',JSON.stringify(myDict)); renderDict(); convert(); }
+function renderTenseMatrix(){ 
+    var matrix=document.getElementById('tenseMatrix'); if(!matrix) return; 
+    var aspects=['simple','cont','perf','p_cont'], times=['present','past','future']; 
+    var html = '';
+    for(var i=0; i<aspects.length; i++){ 
+        var a=aspects[i]; 
+        html += '<div class="tense-row"><div class="aspect-label'+(a===tAspect?' active':'')+'">'+i18n[a][currentLang]+'</div><div class="time-btns">';
+        for(var j=0; j<times.length; j++){ 
+            var ti=times[j]; 
+            var activeClass = (ti===tTime && a===tAspect) ? 'active' : '';
+            html += '<button class="'+activeClass+'" onclick="updateTense(\''+ti+'\',\''+a+'\')">'+i18n[ti][currentLang]+'</button>';
+        } 
+        html += '</div></div>';
+    } 
+    matrix.innerHTML = html;
+}
+function copyResult(){ var text=document.getElementById('resultText').innerText; var dummy = document.createElement("textarea"); document.body.appendChild(dummy); dummy.value = text; dummy.select(); document.execCommand("copy"); document.body.removeChild(dummy); var tip=document.getElementById('copyTooltip'); tip.innerText=i18n[currentLang].copied; tip.classList.add('show'); setTimeout(function(){tip.classList.remove('show');}, 1500); }
+
+document.addEventListener('DOMContentLoaded', function(){ 
+    renderDict(); 
+    renderTenseMatrix(); 
+    setLang('th'); 
+    convert(); 
+});
+</script>
 </body>
-
 </html>
