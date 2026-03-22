@@ -3,72 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PuEnT v80.17 Final Multi-Lang Fix</title>
+<title>PuEnT v3.1 Global</title>
 <style>
 :root { --main: #007bff; --accent: #ff4757; --part: #2ed573; --aux: #ffa502; --bg: #f0f2f5; --logo-bg: #FF8C00; }
-body{font-family:'Segoe UI',Meiryo,sans-serif;background-color:var(--bg);margin:0;padding-bottom:30px;color:#1c1e21;}
+body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; background-color:var(--bg); margin:0; padding-bottom:30px; color:#1c1e21; -webkit-tap-highlight-color: transparent;}
 .header-banner { background-color: var(--logo-bg); padding: 8px 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 .logo-text { font-size: 1.8rem; font-weight: 900; line-height: 1; letter-spacing: -1px; }
 .logo-p { color: #FF4500; } .logo-u { color: #FFFFFF; } .logo-e { color: #FFD700; } .logo-n { color: #ADFF2F; } .logo-t { color: #00BFFF; }
 .ai-note { display: block; color: rgba(255,255,255,0.9); font-size: 0.55rem; font-weight: bold; margin-top: 2px; }
-.top-bar { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 6px 12px; background: #fff; border-bottom: 1px solid #ddd; }
-.full-title { font-size: 0.7rem; color: #444; font-weight: bold; font-style: italic; flex-grow: 1; }
-.lang-switch { display: flex; gap: 4px; }
-.container{max-width:500px;margin:10px auto;background:white;padding:15px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
-.lang-btn{padding:5px 8px;font-size:0.7rem;cursor:pointer;border:1px solid #ddd;border-radius:4px;background:#fff;font-weight:bold}
-.lang-btn.active{background:var(--main);color:white;border-color:var(--main)}
+
+.top-bar { display: flex; flex-direction: column; align-items: center; padding: 6px 12px; background: #fff; border-bottom: 1px solid #ddd; }
+.full-title { font-size: 0.7rem; color: #444; font-weight: bold; font-style: italic; margin-bottom: 5px; }
+
+/* 4列2段の言語スイッチ */
+.lang-switch { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 100%; max-width: 450px; }
+
+.container{max-width:500px; margin:10px auto; background:white; padding:15px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.lang-btn{padding:8px 2px; font-size:0.6rem; cursor:pointer; border:1px solid #ddd; border-radius:4px; background:#fff; font-weight:bold; -webkit-appearance: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.lang-btn.active{background:var(--main); color:white; border-color:var(--main)}
+
 .input-wrapper { position: relative; margin: 5px 0; }
-.input-wrapper input[type="text"] { width: 100%; padding: 10px 40px 10px 10px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 1rem; text-align: center; background: #f9f9f9; cursor: pointer; }
+.input-wrapper input[type="text"] { width: 100%; padding: 10px 40px 10px 10px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 1rem; text-align: center; background: #f9f9f9; -webkit-appearance: none; cursor: pointer; }
 .dropdown-trigger { position: absolute; right: 0; top: 0; bottom: 0; width: 40px; display: flex; align-items: center; justify-content: center; pointer-events: none; color: #666; font-size: 0.8rem; }
 .custom-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; margin-top: 3px; }
 .menu-item { padding: 12px; font-size: 0.9rem; border-bottom: 1px solid #eee; cursor: pointer; text-align: left; padding-left: 15px; }
-.menu-item:hover { background: #f0f7ff; }
+.menu-item:last-child { border-bottom: none; }
+
 .input-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 8px; margin: 5px 0; }
-.verb-group { display: flex; border: 2px solid #ddd; border-radius: 10px; background: #fffef0; height: 46px; overflow: hidden; box-sizing: border-box; }
-.verb-group input { border: none; flex: 1; padding: 0 5px; font-size: 1rem; text-align: center; outline: none; background: transparent; min-width: 0; }
-.verb-group select { border: none; border-left: 1px solid #eee; background: #f8f9fa; font-size: 0.7rem; font-weight: bold; color: var(--accent); cursor: pointer; padding: 0 5px; outline: none; width: 42px; text-align: center; -webkit-appearance: none; appearance: none; }
-.input-grid input:not(.sub-input) { height: 46px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; text-align: center; width: 100%; box-sizing: border-box; background: #fffef0; outline-color: var(--main); }
-.result-box{background:#f8f9fa;border:2px dashed var(--main);padding:15px 45px 15px 15px;font-weight:bold;color:#333;font-size:1.2rem;border-radius:12px;text-align:center;min-height:1.2em;position:relative; margin-bottom: 10px;}
+.verb-group { display: flex; border: 2px solid #ddd; border-radius: 10px; background: #fffef0; height: 46px; overflow: hidden; }
+.verb-group input { border: none; flex: 1; padding: 0 5px; font-size: 1rem; text-align: center; outline: none; background: transparent; min-width: 0; -webkit-appearance: none; }
+.verb-group select { border: none; border-left: 1px solid #eee; background: #f8f9fa; font-size: 0.7rem; font-weight: bold; color: var(--accent); cursor: pointer; padding: 0 5px; outline: none; width: 42px; text-align: center; -webkit-appearance: none; }
+
+.input-grid input:not(.sub-input) { height: 46px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; text-align: center; width: 100%; box-sizing: border-box; background: #fffef0; -webkit-appearance: none; }
+.result-box{background:#f8f9fa; border:2px dashed var(--main); padding:15px 45px 15px 15px; font-weight:bold; color:#333; font-size:1.1rem; border-radius:12px; text-align:center; min-height:1.2em; position:relative; margin-bottom: 10px;}
 .copy-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.3rem; cursor: pointer; opacity: 0.4; }
-.button-group{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px}
+
+.button-group{display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:8px}
 .button-group.two-col{grid-template-columns:repeat(2,1fr)}
-.button-group button{padding:10px 0;font-size:0.85rem;border:1px solid #ddd;border-radius:8px;background:white;font-weight:bold;cursor:pointer}
-.button-group button.active{background:var(--main);color:white;border-color:var(--main)}
-.label{font-size:0.75rem;color:#606770;margin:12px 0 5px 0;font-weight:bold}
+.button-group button{padding:10px 0; font-size:0.8rem; border:1px solid #ddd; border-radius:8px; background:white; font-weight:bold; cursor:pointer; -webkit-appearance: none;}
+.button-group button.active{background:var(--main); color:white; border-color:var(--main)}
+
+.label{font-size:0.75rem; color:#606770; margin:12px 0 5px 0; font-weight:bold}
 .tense-matrix { display: flex; flex-direction: column; gap: 5px; }
 .tense-row { display: flex; align-items: center; gap: 5px; }
-.aspect-label { flex: 0 0 85px; font-size: 0.65rem; font-weight: bold; color: #444; background: #eee; padding: 10px 0; border-radius: 6px; text-align: center; }
+.aspect-label { flex: 0 0 75px; font-size: 0.65rem; font-weight: bold; color: #444; background: #eee; padding: 10px 0; border-radius: 6px; text-align: center; }
 .aspect-label.active { background-color: var(--part); color: white; }
 .time-btns { display: flex; flex: 1; gap: 5px; }
-.time-btns button { flex: 1; padding: 10px 0; font-size: 0.8rem; border: 1px solid var(--main); border-radius: 6px; background: white; color: var(--main); font-weight: bold; cursor: pointer; }
+.time-btns button { flex: 1; padding: 10px 0; font-size: 0.75rem; border: 1px solid var(--main); border-radius: 6px; background: white; color: var(--main); font-weight: bold; -webkit-appearance: none; }
 .time-btns button.active { background-color: var(--main); color: white; }
-.dict-section{margin-top:20px;padding-top:10px;border-top:1px dotted #ccc}
+
+.dict-section{margin-top:20px; padding-top:10px; border-top:1px dotted #ccc}
 .dict-row{display:flex; gap:8px; align-items: flex-end;}
 .dict-left{flex:1;}
 .dict-inputs-top{display:grid; grid-template-columns: repeat(3, 1fr); gap:4px; margin-bottom:4px}
 .dict-inputs-bottom{display:grid; grid-template-columns: 1fr 1fr; gap:4px}
-.dict-inputs-top input, .dict-inputs-bottom input{width:100%; padding:8px 2px; font-size:0.75rem; border:1px solid #ccc; border-radius:6px; text-align:center; box-sizing: border-box; background: #fff;}
-.dict-btns{display:flex; gap:5px; padding-bottom:2px}
-.help-btn{background:var(--aux); color:white; border:none; border-radius:8px; width:35px; height:35px; font-size:1rem; cursor:pointer; font-weight:bold}
-.add-btn{background:var(--part); color:white; border:none; border-radius:8px; width:35px; height:35px; font-size:1.3rem; cursor:pointer}
+.dict-inputs-top input, .dict-inputs-bottom input{width:100%; padding:8px 2px; font-size:0.75rem; border:1px solid #ccc; border-radius:6px; text-align:center; box-sizing: border-box; background: #fff; -webkit-appearance: none;}
+.help-btn{background:var(--aux); color:white; border:none; border-radius:8px; width:35px; height:35px; font-size:1rem; font-weight:bold}
+.add-btn{background:var(--part); color:white; border:none; border-radius:8px; width:35px; height:35px; font-size:1.3rem}
 .dict-list{max-height:100px; overflow-y:auto; font-size:0.7rem; margin-top:10px; display: flex; flex-wrap: wrap; gap: 5px;}
-.dict-item{background: #eee; padding: 3px 8px; border-radius: 6px; display: flex; align-items: center; gap: 5px;}
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
-.modal-content { background: white; padding: 20px; border-radius: 15px; max-width: 350px; width: 95%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-.modal-body { font-size: 0.9rem; line-height: 1.6; color: #333; }
-.modal-close { margin-top: 15px; width: 100%; padding: 12px; background: var(--main); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; }
+.modal-content { background: white; padding: 20px; border-radius: 15px; width: 85%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.modal-close { margin-top: 15px; width: 100%; padding: 12px; background: var(--main); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
 .c-aux { color: var(--aux); } .c-be { color: var(--part); } .c-v { color: var(--accent); }
 </style>
 </head>
 <body onclick="hideMenu()">
-<div class="header-banner"><div class="logo-text"><span class="logo-p">P</span><span class="logo-u">u</span><span class="logo-e">E</span><span class="logo-n">n</span><span class="logo-t">T</span></div><span class="ai-note" id="lbl-banner">AI不使用・低消費電力設計</span></div>
-<div class="top-bar"><span class="full-title">Puzzle for English Tense</span><div class="lang-switch"><button id="btn-ja" class="lang-btn" onclick="setLang('ja')">JP</button><button id="btn-th" class="lang-btn" onclick="setLang('th')">TH</button><button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button></div></div>
+<div class="header-banner">
+    <div class="logo-text"><span class="logo-p">P</span><span class="logo-u">u</span><span class="logo-e">E</span><span class="logo-n">n</span><span class="logo-t">T</span></div>
+    <span class="ai-note" id="lbl-banner">AI不使用・低消費電力設計 v3.1</span>
+</div>
+
+<div class="top-bar">
+    <span class="full-title">Puzzle for English Tense v3.1</span>
+    <div class="lang-switch">
+        <button id="btn-ja" class="lang-btn" onclick="setLang('ja')">日本語</button>
+        <button id="btn-en" class="lang-btn" onclick="setLang('en')">English</button>
+        <button id="btn-th" class="lang-btn" onclick="setLang('th')">ไทย</button>
+        <button id="btn-zh-cn" class="lang-btn" onclick="setLang('zh-cn')">简体中文</button>
+        <button id="btn-zh-tw" class="lang-btn" onclick="setLang('zh-tw')">繁體中文</button>
+        <button id="btn-ko" class="lang-btn" onclick="setLang('ko')">한국어</button>
+        <button id="btn-es" class="lang-btn" onclick="setLang('es')">Español</button>
+    </div>
+</div>
+
 <div class="container">
     <div class="label" id="lbl-select">1. 例文入力</div>
-    <div class="input-wrapper"><input type="text" id="userInput" value="You play tennis." readonly onclick="toggleMenu(event)"><div class="dropdown-trigger">▼</div><div class="custom-menu" id="customMenu">
-        <div class="menu-item" onclick="selectEx('You play tennis.')">You play tennis.</div><div class="menu-item" onclick="selectEx('You write a letter.')">You write a letter.</div><div class="menu-item" onclick="selectEx('She cleans the room.')">She cleans the room.</div><div class="menu-item" onclick="selectEx('He plays soccer.')">He plays soccer.</div><div class="menu-item" onclick="selectEx('They eat an apple.')">They eat an apple.</div><div class="menu-item" onclick="selectEx('He speaks English.')">He speaks English.</div>
-    </div></div>
+    <div class="input-wrapper">
+        <input type="text" id="userInput" value="You play tennis." readonly onclick="toggleMenu(event)">
+        <div class="dropdown-trigger">▼</div>
+        <div class="custom-menu" id="customMenu"></div>
+    </div>
+
     <div class="label" id="lbl-input">2. 自分で入力</div>
     <div class="input-grid">
         <input type="text" id="in-s" value="You" oninput="convert()" onfocus="this.select()">
@@ -78,60 +107,107 @@ body{font-family:'Segoe UI',Meiryo,sans-serif;background-color:var(--bg);margin:
         </div>
         <input type="text" id="in-o" value="tennis" oninput="convert()" onfocus="this.select()">
     </div>
+
     <div class="label" id="lbl-result">3. パズルの結果</div>
     <div class="result-box"><div id="resultText"></div><button class="copy-btn" onclick="copyResult()">📋</button></div>
+
     <div class="label" id="lbl-voice">4-1. 態 (Voice)</div>
     <div class="button-group two-col"><button id="v-active" onclick="setVoice('active',this)" class="active">能動態</button><button id="v-passive" onclick="setVoice('passive',this)">受動態</button></div>
+
     <div class="label" id="lbl-type">4-2. 文のタイプ</div>
     <div class="button-group"><button id="mode-pos" onclick="setMode('pos',this)" class="active">肯定</button><button id="mode-neg" onclick="setMode('neg',this)">否定</button><button id="mode-int" onclick="setMode('int',this)">疑問</button></div>
+
     <div class="label" id="lbl-tense">5. 時制を選択</div>
     <div class="tense-matrix" id="tenseMatrix"></div>
-    <div class="dict-section"><div class="label"><span id="lbl-dict">6. 動詞追加</span></div><div class="dict-row"><div class="dict-left"><div class="dict-inputs-top"><input type="text" id="d-base" placeholder="原形"><input type="text" id="d-past" placeholder="過去形"><input type="text" id="d-pp" placeholder="過去分詞"></div><div class="dict-inputs-bottom"><input type="text" id="d-s" placeholder="三単現-s"><input type="text" id="d-ing" placeholder="進行-ing"></div></div><div class="dict-btns"><button class="help-btn" onclick="showHelp()">?</button><button class="add-btn" onclick="saveVerb()">＋</button></div></div><div class="dict-list" id="dictList"></div></div>
+
+    <div class="dict-section">
+        <div class="label"><span id="lbl-dict">6. 動詞追加</span></div>
+        <div class="dict-row">
+            <div class="dict-left">
+                <div class="dict-inputs-top">
+                    <input type="text" id="d-base" placeholder="原形">
+                    <input type="text" id="d-past" placeholder="過去形">
+                    <input type="text" id="d-pp" placeholder="過去分詞">
+                </div>
+                <div class="dict-inputs-bottom">
+                    <input type="text" id="d-s" placeholder="三単現-s">
+                    <input type="text" id="d-ing" placeholder="進行-ing">
+                </div>
+            </div>
+            <div class="dict-btns">
+                <button class="help-btn" onclick="showHelp()">?</button>
+                <button class="add-btn" onclick="saveVerb()">＋</button>
+            </div>
+        </div>
+        <div class="dict-list" id="dictList"></div>
+    </div>
 </div>
-<div id="helpModal" class="modal-overlay" onclick="closeHelp()"><div class="modal-content" onclick="event.stopPropagation()"><div id="modalBody" class="modal-body"></div><button id="btn-modal-close" class="modal-close" onclick="closeHelp()">OK</button></div></div>
+
+<div id="helpModal" class="modal-overlay" onclick="closeHelp()"><div class="modal-content" onclick="event.stopPropagation()"><div id="modalBody" style="font-size:0.9rem; line-height:1.5;"></div><button class="modal-close" id="btn-modal-close" onclick="closeHelp()">OK</button></div></div>
 
 <script>
 let currentMode='pos', currentVoice='active', tTime='present', tAspect='simple', currentLang='ja';
 let myDict = JSON.parse(localStorage.getItem('myTenseDict')) || {};
+
+// 絶対に変えることのできない5つの例文
+const globalSamples = [
+    'You play tennis.',
+    'You write a letter.',
+    'Jane cleans the room.',
+    'He plays soccer.',
+    'They eat an apple.'
+];
+
 const i18n = { 
-    ja: { banner: "AI不使用・低消費電力設計", select: "1. 例文入力", input: "2. 自分で入力", result: "3. パズルの結果", voice: "4-1. 態", type: "4-2. 文のタイプ", tense: "5. 時制", dict: "6. 動詞追加", pos: "肯定", neg: "否定", int: "疑問", active: "能動態", passive: "受動態", help: "原形/過去/過去分詞等を入力して「＋」", d_base: "原形", d_past: "過去形", d_pp: "過去分詞", d_s: "三単現-s", d_ing: "進行-ing" }, 
-    th: { banner: "ประหยัดพลังงาน", select: "1. ตัวอย่าง", input: "2. พิมพ์เอง", result: "3. ผลลัพธ์", voice: "4-1. วาจก", type: "4-2. รูปแบบ", tense: "5. กาล", dict: "6. เพิ่มกริยา", pos: "บอกเล่า", neg: "ปฏิเสธ", int: "คำถาม", active: "ผู้กระทำ", passive: "ถูกกระทำ", help: "ใส่กริยาช่อง 1/2/3 แล้วกด +", d_base: "V.1", d_past: "V.2", d_pp: "V.3", d_s: "-s", d_ing: "-ing" }, 
-    en: { banner: "Low Power Design", select: "1. Sample", input: "2. Custom", result: "3. Result", voice: "4-1. Voice", type: "4-2. Type", tense: "5. Tense", dict: "6. Add Verb", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Active", passive: "Passive", help: "Input Base/Past/PP and click +", d_base: "Base", d_past: "Past", d_pp: "PP", d_s: "-s", d_ing: "-ing" } 
+    ja: { banner: "AI不使用・低消費電力設計 v3.1", select: "1. 例文入力", input: "2. 自分で入力", result: "3. パズルの結果", voice: "4-1. 態", type: "4-2. 文のタイプ", tense: "5. 時制", dict: "6. 動詞追加", pos: "肯定", neg: "否定", int: "疑問", active: "能動態", passive: "受動態", help: "原形/過去/過去分詞等を入力して「＋」", d_base: "原形", d_past: "過去形", d_pp: "過去分詞", d_s: "三単現-s", d_ing: "進行-ing" }, 
+    en: { banner: "Low Power Design v3.1", select: "1. Sample", input: "2. Custom", result: "3. Result", voice: "4-1. Voice", type: "4-2. Type", tense: "5. Tense", dict: "6. Add Verb", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Active", passive: "Passive", help: "Input Base/Past/PP and click +", d_base: "Base", d_past: "Past", d_pp: "PP", d_s: "-s", d_ing: "-ing" },
+    th: { banner: "ประหยัดพลังงาน v3.1", select: "1. ตัวอย่าง", input: "2. พิมพ์เอง", result: "3. ผลลัพธ์", voice: "4-1. วาจก", type: "4-2. รูปแบบ", tense: "5. กาล", dict: "6. เพิ่มกริยา", pos: "บอกเล่า", neg: "ปฏิเสธ", int: "คำถาม", active: "ประธานทำ", passive: "ถูกทำ", help: "ใส่กริยาช่อง 1/2/3 แล้วกด +", d_base: "V.1", d_past: "V.2", d_pp: "V.3", d_s: "-s", d_ing: "-ing" },
+    'zh-cn': { banner: "无AI・低功耗设计 v3.1", select: "1. 例文输入", input: "2. 自行输入", result: "3. 拼图结果", voice: "4-1. 语态", type: "4-2. 句型", tense: "5. 时态", dict: "6. 添加动词", pos: "肯定", neg: "否定", int: "疑问", active: "主动态", passive: "被动态", help: "输入原形/过去式/分词后点击 +", d_base: "原形", d_past: "过去式", d_pp: "过去分词", d_s: "三单现-s", d_ing: "进行-ing" },
+    'zh-tw': { banner: "無AI・低功耗設計 v3.1", select: "1. 例文輸入", input: "2. 自行輸入", result: "3. 拼圖結果", voice: "4-1. 語態", type: "4-2. 句型", tense: "5. 時態", dict: "6. 添加動詞", pos: "肯定", neg: "否定", int: "疑問", active: "主動態", passive: "被動態", help: "輸入原形/過去式/分詞後點擊 +", d_base: "原形", d_past: "過去式", d_pp: "過去分詞", d_s: "三單現-s", d_ing: "進行-ing" },
+    ko: { banner: "AI 미사용·저전력 설계 v3.1", select: "1. 예문 입력", input: "2. 직접 입력", result: "3. 퍼즐 결과", voice: "4-1. 태", type: "4-2. 문장 유형", tense: "5. 시제", dict: "6. 동사 추가", pos: "긍정", neg: "부정", int: "의문", active: "능동태", passive: "수동태", help: "원형/과거/분사 등을 입력하고 + 클릭", d_base: "원형", d_past: "과거형", d_pp: "과거분사", d_s: "3단현-s", d_ing: "진행-ing" },
+    es: { banner: "Bajo consumo v3.1", select: "1. Ejemplo", input: "2. Personalizar", result: "3. Resultado", voice: "4-1. Voz", type: "4-2. Tipo", tense: "5. Tiempo", dict: "6. Añadir verbo", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Activa", passive: "Pasiva", help: "Inf./Pasado/PP y clic +", d_base: "Base", d_past: "Pasado", d_pp: "Partic.", d_s: "-s", d_ing: "-ing" }
 };
-const defaultIrregulars = {'cut':{past:'cut',pp:'cut'},'write':{past:'wrote',pp:'written'},'eat':{past:'ate',pp:'eaten'},'go':{past:'went',pp:'gone'},'do':{past:'did',pp:'done'},'have':{past:'had',pp:'had'},'speak':{past:'spoke',pp:'spoken'},'play':{past:'played',pp:'played'}};
+
+const defaultIrregulars = {'write':{past:'wrote',pp:'written'},'eat':{past:'ate',pp:'eaten'},'speak':{past:'spoke',pp:'spoken'},'play':{past:'played',pp:'played'}};
 
 function toggleMenu(e) { e.stopPropagation(); const m = document.getElementById('customMenu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; }
 function hideMenu() { document.getElementById('customMenu').style.display = 'none'; }
-function selectEx(f) { document.getElementById('userInput').value=f; let p=f.replace('.','').split(' '); if(p.length>=3){ document.getElementById('in-s').value=p[0]; document.getElementById('in-v').value=cleanV(p[1]); document.getElementById('in-o').value=p.slice(2).join(' '); } document.getElementById('in-v-flag').value = 'auto'; convert(); hideMenu(); }
+
+function selectEx(f) { 
+    document.getElementById('userInput').value=f; 
+    let p=f.replace('.','').split(' '); 
+    if(p.length>=3){ 
+        document.getElementById('in-s').value=p[0]; 
+        document.getElementById('in-v').value=cleanV(p[1]); 
+        document.getElementById('in-o').value=p.slice(2).join(' '); 
+    } 
+    document.getElementById('in-v-flag').value = 'auto'; 
+    convert(); 
+    hideMenu(); 
+}
 
 const span=(t,c)=>`<span class="${c}">${t}</span>`;
 const cap=(s)=>s.charAt(0).toUpperCase()+s.slice(1);
-
 function mid(s) { 
-    if (!s) return ""; 
-    let raw = s.trim(); 
-    let low = raw.toLowerCase();
-    if (low === 'i') return 'I';
-    if (/^(Mr|Ms|Mrs|Miss|Dr|Prof|Rev|Hon|Sir|Dame|St|Pres|Gov|Sen|Rep|Capt|Gen|Col|Maj)\.?\s+/i.test(raw)) return raw;
-    const pronouns = ['you','he','she','it','we','they'];
-    if (pronouns.includes(low)) return low;
-    if (raw[0] === raw[0].toUpperCase()) return raw;
-    return low;
+    if (!s) return ""; let r = s.trim(), l = r.toLowerCase();
+    if (l === 'i') return 'I';
+    if (/^(Mr|Ms|Mrs|Miss|Dr|Prof|Rev|Hon|Sir|Dame|St|Pres|Gov|Sen|Rep|Capt|Gen|Col|Maj)\.?\s+/i.test(r)) return r;
+    if (['you','he','she','it','we','they'].includes(l)) return l;
+    return (r[0] === r[0].toUpperCase()) ? r : l;
 }
 
 function check3rd(s) { 
     if (document.getElementById('in-v-flag').value === 's') return true; 
-    let sL = s.toLowerCase().replace(/<[^>]*>/g, '').trim();
-    if (['i','you','we','they'].includes(sL)) return false; 
-    const titles = /^(mr|ms|mrs|miss|dr|prof|rev|hon|sir|dame|st|pres|gov|sen|rep|capt|gen|col|maj)\.?\s+/i;
-    if (titles.test(sL)) return true;
-    if (sL.endsWith('s')) { const singularExceptions = ['boss','glass','jess','ses','bus','lens','cactus','chess','physics','news','james','charles','jones','lewis']; return singularExceptions.includes(sL); }
+    let l = s.toLowerCase().replace(/<[^>]*>/g, '').trim();
+    if (['i','you','we','they'].includes(l)) return false; 
+    if (/^(mr|ms|mrs|miss|dr|prof|rev|hon|sir|dame|st|pres|gov|sen|rep|capt|gen|col|maj)\.?\s+/i.test(l)) return true;
+    if (l.endsWith('s')) return ['boss','glass','jess','bus','news','james'].includes(l);
     return true; 
 }
 
 function getS(v){ if(myDict[v]?.s) return myDict[v].s; if(v==='have') return 'has'; if(['go','do'].includes(v)) return v+'es'; if(/[^aeiou]y$/.test(v)) return v.slice(0,-1)+'ies'; if(/[sxz]$|sh$|ch$/.test(v)) return v+'es'; return v+'s'; }
 function getI(v){ if(myDict[v]?.ing) return myDict[v].ing; if(v==='be') return 'being'; if(v.endsWith('e') && !/[oey]e$/.test(v)) return v.slice(0,-1)+'ing'; if(/([^aeiou][aeiou][bdfghjklmnpqrstvwxyz])$/.test(v) && !/[wxy]$/.test(v)) return v+v.slice(-1)+'ing'; return v+'ing'; }
-function cleanV(v) { let clean = v.toLowerCase().trim(); if(['am','is','are','was','were'].includes(clean)) return 'be'; if(clean.endsWith('ies') && clean.length > 3) return clean.slice(0,-3)+'y'; if(clean.endsWith('es') && ['goes','does','watches','fishes','washes','boxes'].includes(clean)) return clean.slice(0,-2); if(clean.endsWith('s') && !clean.endsWith('ss') && clean.length > 3) return clean.slice(0,-1); return clean; }
+function cleanV(v) { let c = v.toLowerCase().trim(); if(['am','is','are','was','were'].includes(c)) return 'be'; if(c.endsWith('ies')&&c.length>3) return c.slice(0,-3)+'y'; if(c.endsWith('es')&&['goes','does','watches'].includes(c)) return c.slice(0,-2); if(c.endsWith('s')&&!c.endsWith('ss')&&c.length>3) return c.slice(0,-1); return c; }
 
 function convert(){
     let rawS=document.getElementById('in-s').value.trim(), rawV=document.getElementById('in-v').value.trim(), rawO=document.getElementById('in-o').value.trim();
@@ -141,11 +217,9 @@ function convert(){
     
     let subRaw = (currentVoice==='passive') ? (o||"something") : s;
     let obj = (currentVoice==='passive') ? ("by "+(({i:'me',he:'him',she:'her',they:'them',we:'us'}[s.toLowerCase()]||mid(s)))) : mid(o);
-    
-    let subDisplayHead = cap(subRaw);
-    let subDisplayMid = mid(subRaw);
-    
+    let subDisplayHead = cap(subRaw), subDisplayMid = mid(subRaw);
     let is3 = check3rd(subRaw), sL = subRaw.toLowerCase();
+    
     let beP = (sL==='i')?'am':(is3?'is':'are'), bePa = (sL==='i'||is3)?'was':'were', haveP = is3?'has':'have', n = span('not','c-aux');
     let res = "";
 
@@ -154,16 +228,16 @@ function convert(){
         if(tTime==='present'){ if(tAspect==='simple') aux=beP; else if(tAspect==='cont'){ aux=beP; beS=span('being','c-be'); } else { aux=haveP; beS=span('been','c-be'); if(tAspect==='p_cont') beS+=` ${span('being','c-be')}`; } }
         else if(tTime==='past'){ if(tAspect==='simple') aux=bePa; else if(tAspect==='cont'){ aux=bePa; beS=span('being','c-be'); } else { aux='had'; beS=span('been','c-be'); if(tAspect==='p_cont') beS+=` ${span('been','c-be')}`; } }
         else { aux='will'; beS=span('be','c-be'); if(tAspect==='cont') beS+=` ${span('being','c-be')}`; else if(tAspect==='perf') beS=span('have','c-aux')+` ${span('been','c-be')}`; else if(tAspect==='p_cont') beS=span('have','c-aux')+` ${span('been','c-be')} ${span('being','c-be')}`; }
-        let cAux=span(aux,(tTime==='future'||tAspect==='perf'||(tTime==='past'&&tAspect==='perf'))?'c-aux':'c-be');
+        let cAux=span(aux,(tTime==='future'||tAspect==='perf')?'c-aux':'c-be');
         if(currentMode==='pos') res=`${subDisplayHead} ${cAux} ${beS} ${verb} ${obj}`;
         else if(currentMode==='neg') res=`${subDisplayHead} ${cAux} ${n} ${beS} ${verb} ${obj}`;
-        else res=`${span(cap(aux),(tTime==='future'||tAspect==='perf'||(tTime==='past'&&tAspect==='perf'))?'c-aux':'c-be')} ${subDisplayMid} ${beS} ${verb} ${obj}`;
+        else res=`${span(cap(aux),(tTime==='future'||tAspect==='perf')?'c-aux':'c-be')} ${subDisplayMid} ${beS} ${verb} ${obj}`;
     } else {
         let v_b=span(f.base,'c-v'), v_s=span(f.s,'c-v'), v_i=span(f.ing,'c-v'), v_p=span(f.past,'c-v'), v_pp=span(f.pp,'c-v'), be=span('be','c-be'), been=span('been','c-be');
         if(currentMode==='pos'){
             if(tTime==='present') res=`${subDisplayHead} ${(v==='be')?span(beP,'c-be'):(tAspect==='simple'?(is3?v_s:v_b):(tAspect==='cont'?span(beP,'c-be')+" "+v_i:(tAspect==='perf'?span(haveP,'c-aux')+" "+v_pp:span(haveP,'c-aux')+" "+been+" "+v_i)))} ${obj}`;
             else if(tTime==='past') res=`${subDisplayHead} ${(v==='be')?span(bePa,'c-be'):(tAspect==='simple'?v_p:(tAspect==='cont'?span(bePa,'c-be')+" "+v_i:(tAspect==='perf'?span('had','c-aux')+" "+v_pp:span('had','c-aux')+" "+been+" "+v_i)))} ${obj}`;
-            else { let w=span('will','c-aux'); res=`${subDisplayHead} ${w} ${(tAspect==='simple')?(v==='be'?be:v_b):(tAspect==='cont'?be+" "+v_i:(tAspect==='perf'?span('have','c-aux')+" "+v_pp:span('have','c-aux')+" "+been+" "+v_i))} ${obj}`; }
+            else { res=`${subDisplayHead} ${span('will','c-aux')} ${(tAspect==='simple')?(v==='be'?be:v_b):(tAspect==='cont'?be+" "+v_i:(tAspect==='perf'?span('have','c-aux')+" "+v_pp:span('have','c-aux')+" "+been+" "+v_i))} ${obj}`; }
         } else if(currentMode==='neg'){
             let aux=(tTime==='present')?(is3?'does':'do'):(tTime==='past'?'did':'will');
             if(v==='be'&&tTime!=='future'&&tAspect==='simple') res=`${subDisplayHead} ${span(tTime==='present'?beP:bePa,'c-be')} ${n} ${obj}`;
@@ -180,34 +254,91 @@ function convert(){
     document.getElementById('resultText').innerHTML=res.trim().replace(/\s+/g," ")+(currentMode==='int'?'?':'.');
 }
 
+function renderSampleMenu() {
+    const menu = document.getElementById('customMenu');
+    menu.innerHTML = '';
+    globalSamples.forEach(ex => {
+        const item = document.createElement('div');
+        item.className = 'menu-item';
+        item.innerText = ex;
+        item.onclick = () => selectEx(ex);
+        menu.appendChild(item);
+    });
+}
+
 function setLang(l){ 
     currentLang=l; 
-    ['ja','th','en'].forEach(lang => document.getElementById('btn-'+lang).classList.toggle('active', l===lang));
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById('btn-' + l);
+    if(activeBtn) activeBtn.classList.add('active');
+
+    const trans = i18n[l];
     const ids=['banner','select','input','result','voice','type','tense','dict'];
-    ids.forEach(id=>{ const el=document.getElementById('lbl-'+id); if(el) el.innerText=i18n[l][id]; });
+    ids.forEach(id=>{ const el=document.getElementById('lbl-'+id); if(el) el.innerText=trans[id]; });
     
-    document.getElementById('d-base').placeholder = i18n[l].d_base;
-    document.getElementById('d-past').placeholder = i18n[l].d_past;
-    document.getElementById('d-pp').placeholder = i18n[l].d_pp;
-    document.getElementById('d-s').placeholder = i18n[l].d_s;
-    document.getElementById('d-ing').placeholder = i18n[l].d_ing;
+    ['d-base','d-past','d-pp','d-s','d-ing'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.placeholder = trans[id.replace('-','_')];
+    });
 
     ['v-active','v-passive','mode-pos','mode-neg','mode-int','btn-modal-close'].forEach(id=>{ 
         const el=document.getElementById(id); 
-        if(el) el.innerText=i18n[l][id.replace('mode-','').replace('btn-modal-','').replace('v-','')]; 
+        if(el) el.innerText=trans[id.replace('mode-','').replace('btn-modal-','').replace('v-','')]; 
     }); 
-    renderTenseMatrix(); convert(); 
+    renderTenseMatrix(); 
+    renderSampleMenu(); 
+    convert(); 
 }
-function showHelp() { document.getElementById('modalBody').innerHTML = i18n[currentLang].help; document.getElementById('helpModal').style.display='flex'; }
+
+function renderTenseMatrix(){
+    const matrix=document.getElementById('tenseMatrix'); matrix.innerHTML='';
+    const aspects=['simple','cont','perf','p_cont'], times=['present','past','future'];
+    const labels = {
+        ja:{simple:'基本',cont:'進行',perf:'完了',p_cont:'完進',present:'現在',past:'過去',future:'未来'},
+        en:{simple:'Simple',cont:'Cont.',perf:'Perf.',p_cont:'P.Cont',present:'Pres.',past:'Past',future:'Fut.'},
+        th:{simple:'ปกติ',cont:'กำลัง',perf:'สมบูรณ์',p_cont:'สม進',present:'ปัจจุบัน',past:'อดีต',future:'อนาคต'},
+        'zh-cn':{simple:'一般',cont:'进行',perf:'完成',p_cont:'完进',present:'现在',past:'过去',future:'将来'},
+        'zh-tw':{simple:'一般',cont:'進行',perf:'完成',p_cont:'完進',present:'現在',past:'過去',future:'将来'},
+        ko:{simple:'기본',cont:'진행',perf:'완료',p_cont:'완진',present:'현재',past:'과거',future:'미래'},
+        es:{simple:'Simple',cont:'Cont.',perf:'Perf.',p_cont:'P.Cont',present:'Pres.',past:'Pas.',future:'Fut.'}
+    };
+    aspects.forEach(a=>{
+        const row=document.createElement('div'); row.className='tense-row';
+        const lbl=document.createElement('div'); lbl.className='aspect-label'+(a===tAspect?' active':'');
+        lbl.innerText=labels[currentLang][a];
+        const btns=document.createElement('div'); btns.className='time-btns';
+        times.forEach(ti=>{
+            const btn=document.createElement('button'); btn.innerText=labels[currentLang][ti];
+            if(ti===tTime && a===tAspect) btn.classList.add('active');
+            btn.onclick=()=>updateTense(ti,a);
+            btns.appendChild(btn);
+        });
+        row.append(lbl, btns); matrix.appendChild(row);
+    });
+}
+
+function showHelp() { document.getElementById('modalBody').innerText = i18n[currentLang].help; document.getElementById('helpModal').style.display='flex'; }
 function closeHelp() { document.getElementById('helpModal').style.display='none'; }
 function setMode(m, e){ currentMode=m; document.querySelectorAll('#mode-pos,#mode-neg,#mode-int').forEach(b=>b.classList.remove('active')); e.classList.add('active'); convert(); }
 function setVoice(v, e){ currentVoice=v; document.querySelectorAll('#v-active,#v-passive').forEach(b=>b.classList.remove('active')); e.classList.add('active'); convert(); }
 function updateTense(ti, a){ tTime=ti; tAspect=a; renderTenseMatrix(); convert(); }
-function renderTenseMatrix(){ const matrix=document.getElementById('tenseMatrix'); matrix.innerHTML=''; const aspects=['simple','cont','perf','p_cont'], times=['present','past','future']; const labels = {ja:{simple:'基本',cont:'進行',perf:'完了',p_cont:'完進',present:'現在',past:'過去',future:'未来'},th:{simple:'ปกติ',cont:'กำลัง',perf:'สมบูรณ์',p_cont:'สม進',present:'ปัจจุบัน',past:'อดีต',future:'อนาคต'},en:{simple:'Simple',cont:'Cont.',perf:'Perf.',p_cont:'P.Cont',present:'Pres.',past:'Past',future:'Fut.'}}; aspects.forEach(a=>{ const row=document.createElement('div'); row.className='tense-row'; const lbl=document.createElement('div'); lbl.className='aspect-label'+(a===tAspect?' active':''); lbl.innerText=labels[currentLang][a]; const btns=document.createElement('div'); btns.className='time-btns'; times.forEach(ti=>{ const btn=document.createElement('button'); btn.innerText=labels[currentLang][ti]; if(ti===tTime && a===tAspect) btn.classList.add('active'); btn.onclick=()=>updateTense(ti,a); btns.appendChild(btn); }); row.append(lbl, btns); matrix.appendChild(row); }); }
-function saveVerb(){ const b=document.getElementById('d-base').value.toLowerCase(); if(!b) return; myDict[b]={past:document.getElementById('d-past').value,pp:document.getElementById('d-pp').value,s:document.getElementById('d-s').value,ing:document.getElementById('d-ing').value}; localStorage.setItem('myTenseDict',JSON.stringify(myDict)); renderDict(); convert(); }
-function renderDict(){ const list=document.getElementById('dictList'); list.innerHTML=''; for(let b in myDict){ const item=document.createElement('div'); item.className='dict-item'; item.innerHTML=`<b>${b}</b><button style="border:none;background:var(--accent);color:white;cursor:pointer;font-size:0.5rem;border-radius:2px;margin-left:5px" onclick="deleteVerb('${b}')">×</button>`; list.appendChild(item); } }
+function saveVerb(){ 
+    const b=document.getElementById('d-base').value.toLowerCase().trim(); 
+    if(!b) return; 
+    myDict[b]={past:document.getElementById('d-past').value.trim(),pp:document.getElementById('d-pp').value.trim(),s:document.getElementById('d-s').value.trim(),ing:document.getElementById('d-ing').value.trim()}; 
+    localStorage.setItem('myTenseDict',JSON.stringify(myDict)); renderDict(); convert(); 
+}
+function renderDict(){ 
+    const list=document.getElementById('dictList'); list.innerHTML=''; 
+    for(let b in myDict){ 
+        const item=document.createElement('div'); 
+        item.style="background:#eee; padding:3px 8px; border-radius:6px; font-size:0.7rem; display:flex; align-items:center; gap:5px;";
+        item.innerHTML=`<b>${b}</b><span style="color:var(--accent); cursor:pointer; font-weight:bold; margin-left:5px;" onclick="deleteVerb('${b}')">×</span>`;
+        list.appendChild(item); 
+    } 
+}
 function deleteVerb(b){ delete myDict[b]; localStorage.setItem('myTenseDict',JSON.stringify(myDict)); renderDict(); convert(); }
-function copyResult(){ const text=document.getElementById('resultText').innerText; navigator.clipboard.writeText(text); }
+function copyResult(){ navigator.clipboard.writeText(document.getElementById('resultText').innerText); }
 window.onload=()=>{ renderDict(); setLang('ja'); };
 </script>
 </body>
