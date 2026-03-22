@@ -5,7 +5,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PuEnT v3.1 Global</title>
+<title>PuEnT v3.2 Global</title>
 <style>
 :root { --main: #007bff; --accent: #ff4757; --part: #2ed573; --aux: #ffa502; --bg: #f0f2f5; --logo-bg: #FF8C00; }
 body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; background-color:var(--bg); margin:0; padding-bottom:30px; color:#1c1e21; -webkit-tap-highlight-color: transparent;}
@@ -17,7 +17,7 @@ body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; back
 .top-bar { display: flex; flex-direction: column; align-items: center; padding: 6px 12px; background: #fff; border-bottom: 1px solid #ddd; }
 .full-title { font-size: 0.7rem; color: #444; font-weight: bold; font-style: italic; margin-bottom: 5px; }
 
-/* 4列2段の言語スイッチ */
+/* 8か国対応：4列2段 */
 .lang-switch { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 100%; max-width: 450px; }
 
 .container{max-width:500px; margin:10px auto; background:white; padding:15px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1)}
@@ -45,7 +45,7 @@ body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; back
 .button-group button{padding:10px 0; font-size:0.8rem; border:1px solid #ddd; border-radius:8px; background:white; font-weight:bold; cursor:pointer; -webkit-appearance: none;}
 .button-group button.active{background:var(--main); color:white; border-color:var(--main)}
 
-.label{font-size:0.75rem; color:#606770; margin:12px 0 5px 0; font-weight:bold}
+.label{font-size:0.68rem; color:#606770; margin:12px 0 5px 0; font-weight:bold; letter-spacing: -0.2px;}
 .tense-matrix { display: flex; flex-direction: column; gap: 5px; }
 .tense-row { display: flex; align-items: center; gap: 5px; }
 .aspect-label { flex: 0 0 75px; font-size: 0.65rem; font-weight: bold; color: #444; background: #eee; padding: 10px 0; border-radius: 6px; text-align: center; }
@@ -55,13 +55,14 @@ body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; back
 .time-btns button.active { background-color: var(--main); color: white; }
 
 .dict-section{margin-top:20px; padding-top:10px; border-top:1px dotted #ccc}
-.dict-row{display:flex; gap:8px; align-items: flex-end;}
+.dict-row{display:flex; gap:8px; align-items: stretch;}
 .dict-left{flex:1;}
 .dict-inputs-top{display:grid; grid-template-columns: repeat(3, 1fr); gap:4px; margin-bottom:4px}
 .dict-inputs-bottom{display:grid; grid-template-columns: 1fr 1fr; gap:4px}
 .dict-inputs-top input, .dict-inputs-bottom input{width:100%; padding:8px 2px; font-size:0.75rem; border:1px solid #ccc; border-radius:6px; text-align:center; box-sizing: border-box; background: #fff; -webkit-appearance: none;}
-.help-btn{background:var(--aux); color:white; border:none; border-radius:8px; width:35px; height:35px; font-size:1rem; font-weight:bold}
-.add-btn{background:var(--part); color:white; border:none; border-radius:8px; width:35px; height:35px; font-size:1.3rem}
+.dict-btns { display: flex; flex-direction: column; gap: 4px; }
+.help-btn{background:var(--aux); color:white; border:none; border-radius:6px; width:35px; flex:1; font-size:0.9rem; font-weight:bold}
+.add-btn{background:var(--part); color:white; border:none; border-radius:6px; width:35px; flex:1; font-size:1.2rem}
 .dict-list{max-height:100px; overflow-y:auto; font-size:0.7rem; margin-top:10px; display: flex; flex-wrap: wrap; gap: 5px;}
 
 .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; }
@@ -74,31 +75,32 @@ body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; back
 <body onclick="hideMenu()">
 <div class="header-banner">
     <div class="logo-text"><span class="logo-p">P</span><span class="logo-u">u</span><span class="logo-e">E</span><span class="logo-n">n</span><span class="logo-t">T</span></div>
-    <span class="ai-note" id="lbl-banner">AI不使用・低消費電力設計 v3.1</span>
+    <span class="ai-note" id="lbl-banner">AI不使用・低消費電力設計 v3.2</span>
 </div>
 
 <div class="top-bar">
-    <span class="full-title">Puzzle for English Tense v3.1</span>
+    <span class="full-title">Puzzle for English Tense v3.2</span>
     <div class="lang-switch">
         <button id="btn-ja" class="lang-btn" onclick="setLang('ja')">日本語</button>
         <button id="btn-en" class="lang-btn" onclick="setLang('en')">English</button>
         <button id="btn-th" class="lang-btn" onclick="setLang('th')">ไทย</button>
         <button id="btn-zh-cn" class="lang-btn" onclick="setLang('zh-cn')">简体中文</button>
-        <button id="btn-zh-tw" class="lang-btn" onclick="setLang('zh-tw')">繁體中文</button>
-        <button id="btn-ko" class="lang-btn" onclick="setLang('ko')">한국어</button>
         <button id="btn-es" class="lang-btn" onclick="setLang('es')">Español</button>
+        <button id="btn-pt" class="lang-btn" onclick="setLang('pt')">Português</button>
+        <button id="btn-ko" class="lang-btn" onclick="setLang('ko')">한국어</button>
+        <button id="btn-zh-tw" class="lang-btn" onclick="setLang('zh-tw')">繁體中文</button>
     </div>
 </div>
 
 <div class="container">
-    <div class="label" id="lbl-select">1. 例文入力</div>
+    <div class="label" id="lbl-select">1. 例文入力 : ▼をタップして選んでね</div>
     <div class="input-wrapper">
         <input type="text" id="userInput" value="You play tennis." readonly onclick="toggleMenu(event)">
         <div class="dropdown-trigger">▼</div>
         <div class="custom-menu" id="customMenu"></div>
     </div>
 
-    <div class="label" id="lbl-input">2. 自分で入力</div>
+    <div class="label" id="lbl-input">2. 自分で入力 : 動詞はsが付くならs?に</div>
     <div class="input-grid">
         <input type="text" id="in-s" value="You" oninput="convert()" onfocus="this.select()">
         <div class="verb-group">
@@ -121,7 +123,7 @@ body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; back
     <div class="tense-matrix" id="tenseMatrix"></div>
 
     <div class="dict-section">
-        <div class="label"><span id="lbl-dict">6. 動詞追加</span></div>
+        <div class="label"><span id="lbl-dict">6. 動詞追加 : 活用が正しくない場合は追加して[+]</span></div>
         <div class="dict-row">
             <div class="dict-left">
                 <div class="dict-inputs-top">
@@ -149,62 +151,28 @@ body{font-family: system-ui, -apple-system, 'Segoe UI', Meiryo, sans-serif; back
 let currentMode='pos', currentVoice='active', tTime='present', tAspect='simple', currentLang='ja';
 let myDict = JSON.parse(localStorage.getItem('myTenseDict')) || {};
 
-// 絶対に変えることのできない5つの例文
-const globalSamples = [
-    'You play tennis.',
-    'You write a letter.',
-    'Jane cleans the room.',
-    'He plays soccer.',
-    'They eat an apple.'
-];
+const globalSamples = ['You play tennis.', 'You write a letter.', 'Jane cleans the room.', 'He plays soccer.', 'They eat an apple.'];
 
 const i18n = { 
-    ja: { banner: "AI不使用・低消費電力設計 v3.1", select: "1. 例文入力", input: "2. 自分で入力", result: "3. パズルの結果", voice: "4-1. 態", type: "4-2. 文のタイプ", tense: "5. 時制", dict: "6. 動詞追加", pos: "肯定", neg: "否定", int: "疑問", active: "能動態", passive: "受動態", help: "原形/過去/過去分詞等を入力して「＋」", d_base: "原形", d_past: "過去形", d_pp: "過去分詞", d_s: "三単現-s", d_ing: "進行-ing" }, 
-    en: { banner: "Low Power Design v3.1", select: "1. Sample", input: "2. Custom", result: "3. Result", voice: "4-1. Voice", type: "4-2. Type", tense: "5. Tense", dict: "6. Add Verb", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Active", passive: "Passive", help: "Input Base/Past/PP and click +", d_base: "Base", d_past: "Past", d_pp: "PP", d_s: "-s", d_ing: "-ing" },
-    th: { banner: "ประหยัดพลังงาน v3.1", select: "1. ตัวอย่าง", input: "2. พิมพ์เอง", result: "3. ผลลัพธ์", voice: "4-1. วาจก", type: "4-2. รูปแบบ", tense: "5. กาล", dict: "6. เพิ่มกริยา", pos: "บอกเล่า", neg: "ปฏิเสธ", int: "คำถาม", active: "ประธานทำ", passive: "ถูกทำ", help: "ใส่กริยาช่อง 1/2/3 แล้วกด +", d_base: "V.1", d_past: "V.2", d_pp: "V.3", d_s: "-s", d_ing: "-ing" },
-    'zh-cn': { banner: "无AI・低功耗设计 v3.1", select: "1. 例文输入", input: "2. 自行输入", result: "3. 拼图结果", voice: "4-1. 语态", type: "4-2. 句型", tense: "5. 时态", dict: "6. 添加动词", pos: "肯定", neg: "否定", int: "疑问", active: "主动态", passive: "被动态", help: "输入原形/过去式/分词后点击 +", d_base: "原形", d_past: "过去式", d_pp: "过去分词", d_s: "三单现-s", d_ing: "进行-ing" },
-    'zh-tw': { banner: "無AI・低功耗設計 v3.1", select: "1. 例文輸入", input: "2. 自行輸入", result: "3. 拼圖結果", voice: "4-1. 語態", type: "4-2. 句型", tense: "5. 時態", dict: "6. 添加動詞", pos: "肯定", neg: "否定", int: "疑問", active: "主動態", passive: "被動態", help: "輸入原形/過去式/分詞後點擊 +", d_base: "原形", d_past: "過去式", d_pp: "過去分詞", d_s: "三單現-s", d_ing: "進行-ing" },
-    ko: { banner: "AI 미사용·저전력 설계 v3.1", select: "1. 예문 입력", input: "2. 직접 입력", result: "3. 퍼즐 결과", voice: "4-1. 태", type: "4-2. 문장 유형", tense: "5. 시제", dict: "6. 동사 추가", pos: "긍정", neg: "부정", int: "의문", active: "능동태", passive: "수동태", help: "원형/과거/분사 등을 입력하고 + 클릭", d_base: "원형", d_past: "과거형", d_pp: "과거분사", d_s: "3단현-s", d_ing: "진행-ing" },
-    es: { banner: "Bajo consumo v3.1", select: "1. Ejemplo", input: "2. Personalizar", result: "3. Resultado", voice: "4-1. Voz", type: "4-2. Tipo", tense: "5. Tiempo", dict: "6. Añadir verbo", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Activa", passive: "Pasiva", help: "Inf./Pasado/PP y clic +", d_base: "Base", d_past: "Pasado", d_pp: "Partic.", d_s: "-s", d_ing: "-ing" }
+    ja: { banner: "AI不使用・低消費電力設計 v3.2", select: "1. 例文入力 : ▼をタップして選んでね", input: "2. 自分で入力 : 動詞はsが付くならs?に", result: "3. パズルの結果", voice: "4-1. 態", type: "4-2. 文のタイプ", tense: "5. 時制を選択", dict: "6. 動詞追加 : 活用が正しくない場合は追加して[+]", pos: "肯定", neg: "否定", int: "疑問", active: "能動態", passive: "受動態", help: "原形/過去/過去分詞等を入力して「＋」", d_base: "原形", d_past: "過去形", d_pp: "過去分詞", d_s: "三単現-s", d_ing: "進行-ing" }, 
+    en: { banner: "Low Power Design v3.2", select: "1. Samples : Tap ▼ to select", input: "2. Custom : Set s? if verb needs -s", result: "3. Result", voice: "4-1. Voice", type: "4-2. Type", tense: "5. Select Tense", dict: "6. Add Verb : Add if conjugation is wrong [+]", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Active", passive: "Passive", help: "Input Base/Past/PP and click +", d_base: "Base", d_past: "Past", d_pp: "PP", d_s: "-s", d_ing: "-ing" },
+    th: { banner: "ประหยัดพลังงาน v3.2", select: "1. ตัวอย่าง : แตะ ▼ เพื่อเลือก", input: "2. พิมพ์เอง : เลือก s? ถ้าต้องเติม s", result: "3. ผลลัพธ์", voice: "4-1. วาจก", type: "4-2. รูปแบบ", tense: "5. เลือกกาล", dict: "6. เพิ่มกริยา : เพิ่มถ้าผันไม่ถูก [+]", pos: "บอกเล่า", neg: "ปฏิเสธ", int: "คำถาม", active: "ประธานทำ", passive: "ถูกทำ", help: "ใส่กริยาช่อง 1/2/3 แล้วกด +", d_base: "V.1", d_past: "V.2", d_pp: "V.3", d_s: "-s", d_ing: "-ing" },
+    'zh-cn': { banner: "无AI・低功耗设计 v3.2", select: "1. 例文输入 : 点击 ▼ 选择", input: "2. 自行输入 : 需要 -s 时选择 s?", result: "3. 拼图结果", voice: "4-1. 语态", type: "4-2. 句型", tense: "5. 选择时态", dict: "6. 添加动词 : 活用错误时请添加 [+]", pos: "肯定", neg: "否定", int: "疑问", active: "主动态", passive: "被动态", help: "输入原形/过去式/分词后点击 +", d_base: "原形", d_past: "过去式", d_pp: "过去分词", d_s: "三单现-s", d_ing: "进行-ing" },
+    'zh-tw': { banner: "無AI・低功耗設計 v3.2", select: "1. 例文輸入 : 點擊 ▼ 選擇", input: "2. 自行輸入 : 需要 -s 時選擇 s?", result: "3. 拼圖結果", voice: "4-1. 語態", type: "4-2. 句型", tense: "5. 選擇時態", dict: "6. 添加動詞 : 活用錯誤時請添加 [+]", pos: "肯定", neg: "否定", int: "疑問", active: "主動態", passive: "被動態", help: "輸入原形/過去式/分詞後點擊 +", d_base: "原形", d_past: "過去式", d_pp: "過去分詞", d_s: "三單現-s", d_ing: "進行-ing" },
+    ko: { banner: "AI 미사용·저전력 설계 v3.2", select: "1. 예문 입력 : ▼를 눌러 선택하세요", input: "2. 직접 입력 : -s가 필요하면 s? 설정", result: "3. 퍼ズル 결과", voice: "4-1. 태", type: "4-2. 문장 유형", tense: "5. 시제 선택", dict: "6. 동사 추가 : 활용이 틀리면 추가 [+]", pos: "긍정", neg: "부정", int: "의문", active: "능동태", passive: "수동태", help: "원형/과거/분사 등을 입력하고 + 클릭", d_base: "원형", d_past: "과거형", d_pp: "과거분사", d_s: "3단현-s", d_ing: "진행-ing" },
+    es: { banner: "Bajo consumo v3.2", select: "1. Ejemplos : Toca ▼ para elegir", input: "2. Personalizar : Pon s? si lleva -s", result: "3. Resultado", voice: "4-1. Voz", type: "4-2. Tipo", tense: "5. Elige el tiempo", dict: "6. Añadir verbo : Añade si falla el cambio [+]", pos: "Aff.", neg: "Neg.", int: "Int.", active: "Activa", passive: "Pasiva", help: "Inf./Pasado/PP y clic +", d_base: "Base", d_past: "Pasado", d_pp: "Partic.", d_s: "-s", d_ing: "-ing" },
+    pt: { banner: "Baixo consumo v3.2", select: "1. Exemplos : Toque ▼ para selecionar", input: "2. Personalizar : Marque s? se precisar de -s", result: "3. Resultado", voice: "4-1. Voz", type: "4-2. Tipo", tense: "5. Escolha o tempo", dict: "6. Adicionar verbo : Adicione se estiver errado [+]", pos: "Afir.", neg: "Neg.", int: "Int.", active: "Ativa", passive: "Passiva", help: "Inf./Pasado/PP e clique +", d_base: "Base", d_past: "Pasado", d_pp: "Partic.", d_s: "-s", d_ing: "-ing" }
 };
 
-const defaultIrregulars = {'write':{past:'wrote',pp:'written'},'eat':{past:'ate',pp:'eaten'},'speak':{past:'spoke',pp:'spoken'},'play':{past:'played',pp:'played'}};
+const defaultIrregulars = {'write':{past:'wrote',pp:'written'},'eat':{past:'ate',pp:'eaten'},'speak':{past:'spoke',pp:'spoken'},'play':{played:'played',pp:'played'}};
 
 function toggleMenu(e) { e.stopPropagation(); const m = document.getElementById('customMenu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; }
 function hideMenu() { document.getElementById('customMenu').style.display = 'none'; }
-
-function selectEx(f) { 
-    document.getElementById('userInput').value=f; 
-    let p=f.replace('.','').split(' '); 
-    if(p.length>=3){ 
-        document.getElementById('in-s').value=p[0]; 
-        document.getElementById('in-v').value=cleanV(p[1]); 
-        document.getElementById('in-o').value=p.slice(2).join(' '); 
-    } 
-    document.getElementById('in-v-flag').value = 'auto'; 
-    convert(); 
-    hideMenu(); 
-}
-
+function selectEx(f) { document.getElementById('userInput').value=f; let p=f.replace('.','').split(' '); if(p.length>=3){ document.getElementById('in-s').value=p[0]; document.getElementById('in-v').value=cleanV(p[1]); document.getElementById('in-o').value=p.slice(2).join(' '); } document.getElementById('in-v-flag').value = 'auto'; convert(); hideMenu(); }
 const span=(t,c)=>`<span class="${c}">${t}</span>`;
 const cap=(s)=>s.charAt(0).toUpperCase()+s.slice(1);
-function mid(s) { 
-    if (!s) return ""; let r = s.trim(), l = r.toLowerCase();
-    if (l === 'i') return 'I';
-    if (/^(Mr|Ms|Mrs|Miss|Dr|Prof|Rev|Hon|Sir|Dame|St|Pres|Gov|Sen|Rep|Capt|Gen|Col|Maj)\.?\s+/i.test(r)) return r;
-    if (['you','he','she','it','we','they'].includes(l)) return l;
-    return (r[0] === r[0].toUpperCase()) ? r : l;
-}
-
-function check3rd(s) { 
-    if (document.getElementById('in-v-flag').value === 's') return true; 
-    let l = s.toLowerCase().replace(/<[^>]*>/g, '').trim();
-    if (['i','you','we','they'].includes(l)) return false; 
-    if (/^(mr|ms|mrs|miss|dr|prof|rev|hon|sir|dame|st|pres|gov|sen|rep|capt|gen|col|maj)\.?\s+/i.test(l)) return true;
-    if (l.endsWith('s')) return ['boss','glass','jess','bus','news','james'].includes(l);
-    return true; 
-}
-
+function mid(s) { if (!s) return ""; let r = s.trim(), l = r.toLowerCase(); if (l === 'i') return 'I'; if (/^(Mr|Ms|Mrs|Miss|Dr|Prof|Rev|Hon|Sir|Dame|St|Pres|Gov|Sen|Rep|Capt|Gen|Col|Maj)\.?\s+/i.test(r)) return r; if (['you','he','she','it','we','they'].includes(l)) return l; return (r[0] === r[0].toUpperCase()) ? r : l; }
+function check3rd(s) { if (document.getElementById('in-v-flag').value === 's') return true; let l = s.toLowerCase().replace(/<[^>]*>/g, '').trim(); if (['i','you','we','they'].includes(l)) return false; if (/^(mr|ms|mrs|miss|dr|prof|rev|hon|sir|dame|st|pres|gov|sen|rep|capt|gen|col|maj)\.?\s+/i.test(l)) return true; if (l.endsWith('s')) return ['boss','glass','jess','bus','news','james'].includes(l); return true; }
 function getS(v){ if(myDict[v]?.s) return myDict[v].s; if(v==='have') return 'has'; if(['go','do'].includes(v)) return v+'es'; if(/[^aeiou]y$/.test(v)) return v.slice(0,-1)+'ies'; if(/[sxz]$|sh$|ch$/.test(v)) return v+'es'; return v+'s'; }
 function getI(v){ if(myDict[v]?.ing) return myDict[v].ing; if(v==='be') return 'being'; if(v.endsWith('e') && !/[oey]e$/.test(v)) return v.slice(0,-1)+'ing'; if(/([^aeiou][aeiou][bdfghjklmnpqrstvwxyz])$/.test(v) && !/[wxy]$/.test(v)) return v+v.slice(-1)+'ing'; return v+'ing'; }
 function cleanV(v) { let c = v.toLowerCase().trim(); if(['am','is','are','was','were'].includes(c)) return 'be'; if(c.endsWith('ies')&&c.length>3) return c.slice(0,-3)+'y'; if(c.endsWith('es')&&['goes','does','watches'].includes(c)) return c.slice(0,-2); if(c.endsWith('s')&&!c.endsWith('ss')&&c.length>3) return c.slice(0,-1); return c; }
@@ -214,15 +182,11 @@ function convert(){
     if(!rawS||!rawV) return;
     let v = cleanV(rawV), s = rawS, o = rawO;
     let f={s:getS(v),ing:getI(v),base:v,past:myDict[v]?.past||defaultIrregulars[v]?.past||(v.endsWith('e')?v+'d':v+'ed'),pp:myDict[v]?.pp||defaultIrregulars[v]?.pp||(v.endsWith('e')?v+'d':v+'ed')};
-    
     let subRaw = (currentVoice==='passive') ? (o||"something") : s;
     let obj = (currentVoice==='passive') ? ("by "+(({i:'me',he:'him',she:'her',they:'them',we:'us'}[s.toLowerCase()]||mid(s)))) : mid(o);
-    let subDisplayHead = cap(subRaw), subDisplayMid = mid(subRaw);
-    let is3 = check3rd(subRaw), sL = subRaw.toLowerCase();
-    
+    let subDisplayHead = cap(subRaw), subDisplayMid = mid(subRaw), is3 = check3rd(subRaw), sL = subRaw.toLowerCase();
     let beP = (sL==='i')?'am':(is3?'is':'are'), bePa = (sL==='i'||is3)?'was':'were', haveP = is3?'has':'have', n = span('not','c-aux');
     let res = "";
-
     if(currentVoice==='passive'){
         let aux="", beS="", verb=span(f.pp,'c-v');
         if(tTime==='present'){ if(tAspect==='simple') aux=beP; else if(tAspect==='cont'){ aux=beP; beS=span('being','c-be'); } else { aux=haveP; beS=span('been','c-be'); if(tAspect==='p_cont') beS+=` ${span('being','c-be')}`; } }
@@ -282,8 +246,7 @@ function setLang(l){
     });
 
     ['v-active','v-passive','mode-pos','mode-neg','mode-int','btn-modal-close'].forEach(id=>{ 
-        const el=document.getElementById(id); 
-        if(el) el.innerText=trans[id.replace('mode-','').replace('btn-modal-','').replace('v-','')]; 
+        const el=document.getElementById(id); if(el) el.innerText=trans[id.replace('mode-','').replace('btn-modal-','').replace('v-','')]; 
     }); 
     renderTenseMatrix(); 
     renderSampleMenu(); 
@@ -300,7 +263,8 @@ function renderTenseMatrix(){
         'zh-cn':{simple:'一般',cont:'进行',perf:'完成',p_cont:'完进',present:'现在',past:'过去',future:'将来'},
         'zh-tw':{simple:'一般',cont:'進行',perf:'完成',p_cont:'完進',present:'現在',past:'過去',future:'将来'},
         ko:{simple:'기본',cont:'진행',perf:'완료',p_cont:'완진',present:'현재',past:'과거',future:'미래'},
-        es:{simple:'Simple',cont:'Cont.',perf:'Perf.',p_cont:'P.Cont',present:'Pres.',past:'Pas.',future:'Fut.'}
+        es:{simple:'Simple',cont:'Cont.',perf:'Perf.',p_cont:'P.Cont',present:'Pres.',past:'Pas.',future:'Fut.'},
+        pt:{simple:'Simple',cont:'Cont.',perf:'Perf.',p_cont:'P.Cont',present:'Pres.',past:'Pas.',future:'Fut.'}
     };
     aspects.forEach(a=>{
         const row=document.createElement('div'); row.className='tense-row';
